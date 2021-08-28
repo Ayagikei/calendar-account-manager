@@ -1,7 +1,6 @@
 package `fun`.lifeupapp.calmanager.ui.page.about
 
 import `fun`.lifeupapp.calmanager.R
-import `fun`.lifeupapp.calmanager.R.string
 import `fun`.lifeupapp.calmanager.common.Val
 import `fun`.lifeupapp.calmanager.ui.page.home.HeaderTitle
 import `fun`.lifeupapp.calmanager.ui.theme.CalendarManagerTheme
@@ -33,11 +32,7 @@ import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -64,7 +59,7 @@ fun About() {
             Surface(color = MYPinkBackground, modifier = Modifier.fillMaxHeight()) {
                 Column {
                     // 3. 获取状态栏高度并设置占位
-                    HeaderTitle(stringResource(string.about_title))
+                    HeaderTitle(stringResource(R.string.about_title))
                     Column(
                         Modifier
                             .padding(start = 16.dp)

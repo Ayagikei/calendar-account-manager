@@ -1,7 +1,6 @@
 package `fun`.lifeupapp.calmanager.utils
 
 import android.content.Context
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 
 object VersionUtil {

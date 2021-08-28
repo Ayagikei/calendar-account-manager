@@ -7,8 +7,6 @@ import `fun`.lifeupapp.calmanager.common.Resource.Success
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
 import `fun`.lifeupapp.calmanager.ui.theme.CalendarManagerTheme
 import `fun`.lifeupapp.calmanager.ui.theme.MYPinkBackground
-import `fun`.lifeupapp.calmanager.ui.theme.MYPinkPrimaryTextColor
-import `fun`.lifeupapp.calmanager.ui.theme.MYPinkSecondaryColor
 import android.Manifest.permission
 import android.content.Intent
 import android.net.Uri
@@ -27,7 +25,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -43,7 +40,10 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * home page in compose
@@ -260,8 +260,6 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
                     }
                 }
             }
-        }else{
-            // scope.cancel()
         }
     }
 }
