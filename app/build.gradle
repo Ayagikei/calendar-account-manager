@@ -21,7 +21,9 @@ android {
 
   buildTypes {
     release {
-      minifyEnabled false
+      minifyEnabled true
+      shrinkResources true
+      zipAlignEnabled true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
@@ -66,8 +68,6 @@ dependencies {
 
   /** Splitties **/
   implementation "com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0"
-  implementation "com.louiscad.splitties:splitties-fun-pack-android-material-components-with-views-dsl:3.0.0"
-  implementation "com.afollestad.material-dialogs:core:3.3.0"
 
   implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
   implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
