@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">日历账号管理</string>
+    <string name="dialog_button_dismiss">关闭</string>
+    <string name="dialog_button_confirm">确认</string>
+    <string name="dialog_title_delete">删除</string>
+    <string name="dialog_message_delete_cal_account">请确认你是否要删除该日历账号: %1$s.\n\n该操作不可逆，并且该账号的事件也会被一并删除。\n\n请谨慎操作。</string>
+    <string name="placeholder_loading">加载中...</string>
+    <string name="app_title">日历账号管理</string>
+    <string name="about_title">关于</string>
+    <string name="text_do_not_show_rationale">功能不可用，请授权日历读写权限。</string>
+    <string name="text_permission_require_desc">我们需要日历读写权限来获取日历账号列表，并支持删除你选择的账号。</string>
+    <string name="button_nope">不</string>
+    <string name="button_ok">好的</string>
+    <string name="text_permissions_not_available">日历权限授权失败。我们需要这些权限来实现基础功能，请在设置页面中授权。</string>
+    <string name="button_open_settings">打开设置</string>
+    <string name="about_appname">日历账号管理</string>
+    <string name="about_app_desc">一个简约的开源日历账号管理器（虽然只有删除功能）。\n\n如果你被一些莫名出现的日历账号所骚扰，那么这款软件可以帮助你。</string>
+    <string name="about_versions">版本</string>
+    <string name="about_permission">权限</string>
+    <string name="about_permission_desc">这款软件是开源的，且不需要网络或者存储权限。</string>
+    <string name="about_link_github">Github</string>
+    <string name="about_toast_failed_to_open">打开链接失败</string>
+    <string name="about_lifeup_desc"><![CDATA[一款游戏化的待办事项和习惯养成应用]]></string>
+    <string name="about_link">链接</string>
+    <string name="about_not_found_android_store">打开谷歌Play或者其他应用商店失败</string>
+</resources>

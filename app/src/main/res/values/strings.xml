@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Calendar Manager</string>
+    <string name="app_name">Calendar Account Manager</string>
     <string name="dialog_button_dismiss">Dismiss</string>
     <string name="dialog_button_confirm">Confirm</string>
     <string name="dialog_title_delete">Delete</string>
@@ -23,5 +23,4 @@
     <string name="about_lifeup_desc"><![CDATA[a gamification To-Do & Habit Application]]></string>
     <string name="about_link">Link</string>
     <string name="about_not_found_android_store">failed to open google play or other app store</string>
-
 </resources>
