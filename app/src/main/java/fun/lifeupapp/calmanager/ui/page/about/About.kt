@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import splitties.init.appCtx
@@ -56,7 +57,12 @@ fun About() {
             rememberSystemUiController().setStatusBarColor(
                 Color.Transparent, darkIcons = MaterialTheme.colors.isLight
             )
-            Surface(color = MYPinkBackground, modifier = Modifier.fillMaxHeight()) {
+            Surface(
+                color = MYPinkBackground,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .systemBarsPadding()
+            ) {
                 Column {
                     // 3. 获取状态栏高度并设置占位
                     HeaderTitle(stringResource(R.string.about_title))

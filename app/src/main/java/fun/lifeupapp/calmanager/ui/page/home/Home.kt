@@ -74,7 +74,7 @@ fun Home(navController: NavController) {
                 }, isFloatingActionButtonDocked = true
             ) {
                 Surface(color = MYPinkBackground, modifier = Modifier.fillMaxHeight()) {
-                    Column(modifier = Modifier.systemBarsPadding()) {
+                    Column {
                         val context = LocalContext.current
                         HeaderTitle(context.getString(R.string.app_title))
                         // request permission and list calendar accounts
@@ -217,13 +217,20 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(modifier = Modifier.wrapContentWidth(Alignment.Start)) {
+            Column(modifier = Modifier
+                .wrapContentWidth(Alignment.Start)
+                .weight(5f)) {
                 Text(calendarModel.displayName, style = MaterialTheme.typography.h6)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text("${calendarModel.accountName} · ${calendarModel.ownerName} · id ${calendarModel.id}", style = MaterialTheme.typography.body2)
+                Text(
+                    "${calendarModel.accountName} · ${calendarModel.ownerName} · id ${calendarModel.id}",
+                    style = MaterialTheme.typography.body2
+                )
             }
 
-            Column(modifier = Modifier.wrapContentWidth(Alignment.End)) {
+            Column(modifier = Modifier
+                .wrapContentWidth(Alignment.End)
+                .weight(1f)) {
                 Surface(
                     Modifier
                         .clickable {
