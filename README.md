@@ -1,6 +1,6 @@
 ## Calendar Account Manager
 
-![](https://github.com/Ayagikei/calendar-account-manager/blob/master/imgs/01.png?raw=true)
+![](https://github.com/Ayagikei/calendar-account-manager/raw/main/imgs/01.jpg)
 
 ## What's it?
 
