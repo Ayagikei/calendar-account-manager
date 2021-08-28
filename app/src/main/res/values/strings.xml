@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Calendar Manager</string>
+    <string name="dialog_button_dismiss">Dismiss</string>
+    <string name="dialog_button_confirm">Confirm</string>
+    <string name="dialog_title_delete">Delete</string>
+    <string name="dialog_message_delete_cal_account">Please confirm whether you want to delete the calendar: %1$s.\n\nThis operation cannot be undone, and the events under the account will also be deleted.\n\nPlease operate with caution.</string>
+    <string name="placeholder_loading">Loading...</string>
+    <string name="app_title">Calendar Account Manager</string>
+    <string name="about_title">About</string>
+    <string name="text_do_not_show_rationale">Feature not available, please grant us the permissions in the Settings screen.</string>
+    <string name="text_permission_require_desc">We need the calendar read and write permission to list the calendar accounts and you can delete the unneeded accounts.\n\nPlease grant the permission.</string>
+    <string name="button_nope">Nope</string>
+    <string name="button_ok">OK!</string>
+    <string name="text_permissions_not_available">Calendar permissions denied. We need these permissions to list the calendar accounts and help you deleting the account that you do not wanted. Please, grant us access on the Settings screen.</string>
+    <string name="button_open_settings">Open Settings</string>
+    <string name="about_appname">Calendar Manager</string>
+    <string name="about_app_desc">A open source and simple calendar account manager app.\n\If you are harassed by calendar accounts created by some apps, this app is for you.\nIt can help you delete your calendar account (some systems do not provide this ability).</string>
+    <string name="about_versions">Version</string>
+    <string name="about_permission">Permission</string>
+    <string name="about_permission_desc">This application is open source and does not require network or file storage permissions.</string>
+    <string name="about_link_github">Github</string>
+    <string name="about_toast_failed_to_open">failed to open the link</string>
+    <string name="about_lifeup_desc"><![CDATA[a gamification To-Do & Habit Application]]></string>
+    <string name="about_link">Link</string>
+    <string name="about_not_found_android_store">failed to open google play or other app store</string>
+
+</resources>
