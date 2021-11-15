@@ -11,8 +11,10 @@ private val DarkColorPalette = darkColors(
     primary = MYPinkPrimaryTextColor,
     primaryVariant = MYPinkSecondaryColor,
     secondary = MYPinkPrimaryTextColor,
+    secondaryVariant = Color.White,
     background = MYPinkBackground,
-    onBackground = black2
+    onBackground = black2,
+    surface = Color.White
 )
 
 private val LightColorPalette = lightColors(
