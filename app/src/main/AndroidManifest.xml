@@ -16,7 +16,7 @@
         android:name=".MainActivity"
         android:exported="true"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Calendar_manager.NoActionBar">
+        android:theme="@style/Theme.Calendar_manager">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 

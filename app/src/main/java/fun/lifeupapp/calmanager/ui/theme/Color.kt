@@ -13,3 +13,5 @@ val MYPinkPrimaryTextColor = Color(0XFFD47266)
 
 val MYPinkSecondaryColor = Color(0XFFF2ADA7)
 val MYPinkAccent = Color(0XFFFAD9A6)
+
+val black2 = Color(0xFF000000)
