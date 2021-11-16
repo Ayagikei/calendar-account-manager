@@ -13,10 +13,10 @@ private val DarkColorPalette = darkColors(
     primary = MyDarkPinkPrimaryTextColor,
     primaryVariant = MYPinkPrimaryTextColor,
     secondary = MyDarkPinkPrimaryTextColor,
-    secondaryVariant = Color.White,
+    secondaryVariant = white2,
     background = MyDarkPinkBackground,
     onBackground = black2,
-    surface = Color.Black
+    surface = black2
 )
 
 @SuppressLint("ConflictingOnColor")
@@ -26,7 +26,7 @@ private val LightColorPalette = lightColors(
     secondary = MYPinkPrimaryTextColor,
     background = MYPinkBackground,
     onBackground = black2,
-    surface = Color.White
+    surface = white2
 
     /* Other default colors to override
     background = Color.White,

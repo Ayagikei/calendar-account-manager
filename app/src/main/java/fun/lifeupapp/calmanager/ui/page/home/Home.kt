@@ -1,16 +1,25 @@
 package `fun`.lifeupapp.calmanager.ui.page.home
 
+import `fun`.lifeupapp.calmanager.MainActivity
 import `fun`.lifeupapp.calmanager.MainViewModel
 import `fun`.lifeupapp.calmanager.R
+import android.view.Window
 import `fun`.lifeupapp.calmanager.common.Resource
 import `fun`.lifeupapp.calmanager.common.Resource.Success
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
+import `fun`.lifeupapp.calmanager.ui.page.about.About
 import `fun`.lifeupapp.calmanager.ui.theme.CalendarManagerTheme
+import `fun`.lifeupapp.calmanager.ui.theme.MYPinkBackground
+import `fun`.lifeupapp.calmanager.ui.theme.MyDarkPinkBackground
 import android.Manifest.permission
+import android.app.ActionBar
+import android.app.Activity
 import android.content.Intent
+import android.icu.text.CaseMap
 import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -23,11 +32,13 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -50,16 +61,21 @@ import kotlinx.coroutines.withContext
  * Copyright (c) 2021 AyagiKei
  */
 
+@ExperimentalUnitApi
 @ExperimentalPermissionsApi
 @Composable
 fun Home(navController: NavController) {
-
     CalendarManagerTheme {
         // add ProvideWindowInsets
         ProvideWindowInsets {
-            // set status bar color
+
+            //val systemUiController = rememberSystemUiController()
+//            val useDarkIcon = MaterialTheme.colors.isLight
+
+//
+            //set status bar color
             rememberSystemUiController().setStatusBarColor(
-                MaterialTheme.colors.primaryVariant, darkIcons = MaterialTheme.colors.isLight
+                MaterialTheme.colors.background, darkIcons = MaterialTheme.colors.isLight
             )
             Scaffold(
                 Modifier
