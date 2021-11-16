@@ -58,7 +58,7 @@ fun About() {
                 Color.Transparent, darkIcons = MaterialTheme.colors.isLight
             )
             Surface(
-                color = MYPinkBackground,
+                color = MaterialTheme.colors.surface,
                 modifier = Modifier
                     .fillMaxHeight()
                     .systemBarsPadding()

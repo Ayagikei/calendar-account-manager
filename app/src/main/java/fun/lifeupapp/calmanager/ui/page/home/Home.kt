@@ -6,7 +6,6 @@ import `fun`.lifeupapp.calmanager.common.Resource
 import `fun`.lifeupapp.calmanager.common.Resource.Success
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
 import `fun`.lifeupapp.calmanager.ui.theme.CalendarManagerTheme
-import `fun`.lifeupapp.calmanager.ui.theme.MYPinkBackground
 import android.Manifest.permission
 import android.content.Intent
 import android.net.Uri
@@ -24,7 +23,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -55,12 +53,13 @@ import kotlinx.coroutines.withContext
 @ExperimentalPermissionsApi
 @Composable
 fun Home(navController: NavController) {
+
     CalendarManagerTheme {
         // add ProvideWindowInsets
         ProvideWindowInsets {
             // set status bar color
             rememberSystemUiController().setStatusBarColor(
-                MYPinkBackground, darkIcons = MaterialTheme.colors.isLight
+                MaterialTheme.colors.primaryVariant, darkIcons = MaterialTheme.colors.isLight
             )
             Scaffold(
                 Modifier
@@ -73,7 +72,7 @@ fun Home(navController: NavController) {
                     }
                 }, isFloatingActionButtonDocked = true
             ) {
-                Surface(color = MYPinkBackground, modifier = Modifier.fillMaxHeight()) {
+                Surface(color = MaterialTheme.colors.background, modifier = Modifier.fillMaxHeight()) {
                     Column {
                         val context = LocalContext.current
                         HeaderTitle(context.getString(R.string.app_title))
@@ -204,7 +203,7 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
             .fillMaxWidth(),
         elevation = 0.dp,
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = Color.White
+        backgroundColor = MaterialTheme.colors.surface
     ) {
         var openDialog by remember { mutableStateOf(false) }
         var countDown by remember {

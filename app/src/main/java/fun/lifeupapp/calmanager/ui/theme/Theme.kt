@@ -1,5 +1,6 @@
 package `fun`.lifeupapp.calmanager.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -7,22 +8,25 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+@SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
-    primary = MYPinkPrimaryTextColor,
-    primaryVariant = MYPinkSecondaryColor,
-    secondary = MYPinkPrimaryTextColor,
+    primary = MyDarkPinkPrimaryTextColor,
+    primaryVariant = MYPinkPrimaryTextColor,
+    secondary = MyDarkPinkPrimaryTextColor,
     secondaryVariant = Color.White,
+    background = MyDarkPinkBackground,
+    onBackground = black2,
+    surface = Color.Black
+)
+
+@SuppressLint("ConflictingOnColor")
+private val LightColorPalette = lightColors(
+    primary = MYPinkPrimaryTextColor,
+    primaryVariant = MyDarkPinkPrimaryTextColor,
+    secondary = MYPinkPrimaryTextColor,
     background = MYPinkBackground,
     onBackground = black2,
     surface = Color.White
-)
-
-private val LightColorPalette = lightColors(
-    primary = MYPinkPrimaryTextColor,
-    primaryVariant = MYPinkSecondaryColor,
-    secondary = MYPinkPrimaryTextColor,
-    background = MYPinkBackground,
-    onBackground = black2
 
     /* Other default colors to override
     background = Color.White,
@@ -35,7 +39,7 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun CalendarManagerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun CalendarManagerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
