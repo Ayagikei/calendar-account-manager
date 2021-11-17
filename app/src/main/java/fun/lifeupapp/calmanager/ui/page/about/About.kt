@@ -3,9 +3,11 @@ package `fun`.lifeupapp.calmanager.ui.page.about
 import `fun`.lifeupapp.calmanager.R
 import `fun`.lifeupapp.calmanager.common.Val
 import `fun`.lifeupapp.calmanager.ui.page.home.HeaderTitle
+import `fun`.lifeupapp.calmanager.ui.page.home.Home
 import `fun`.lifeupapp.calmanager.ui.theme.CalendarManagerTheme
 import `fun`.lifeupapp.calmanager.ui.theme.MYPinkAccent
 import `fun`.lifeupapp.calmanager.ui.theme.MYPinkBackground
+import `fun`.lifeupapp.calmanager.ui.theme.MyDarkPinkBackground
 import `fun`.lifeupapp.calmanager.utils.VersionUtil
 import `fun`.lifeupapp.calmanager.utils.logE
 import android.content.Intent
@@ -20,10 +22,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -33,6 +37,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
+import androidx.navigation.NavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -46,6 +51,8 @@ import splitties.toast.toast
  * MIT License
  * Copyright (c) 2021 AyagiKei
  */
+
+
 @ExperimentalUnitApi
 @ExperimentalPermissionsApi
 @Composable
@@ -53,12 +60,8 @@ fun About() {
     CalendarManagerTheme {
         // 加入ProvideWindowInsets
         ProvideWindowInsets {
-            // 2. 设置状态栏颜色
-            rememberSystemUiController().setStatusBarColor(
-                Color.Transparent, darkIcons = MaterialTheme.colors.isLight
-            )
             Surface(
-                color = MYPinkBackground,
+                color = MaterialTheme.colors.surface,
                 modifier = Modifier
                     .fillMaxHeight()
                     .systemBarsPadding()
