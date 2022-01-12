@@ -2,6 +2,8 @@
 
 ![](https://github.com/Ayagikei/calendar-account-manager/raw/main/imgs/01.jpg)
 
+[![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png "CalendarManager")](https://play.google.com/store/apps/details?id=fun.lifeupapp.calmanager&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+
 ## What's it?
 
 If you are being bothered by a calendar account that doesn't know where it popped up, then this
