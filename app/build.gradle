@@ -65,6 +65,7 @@ dependencies {
   androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
   androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
   debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+  implementation "androidx.compose.material3:material3:1.0.0-alpha04"
 
   /** Splitties **/
   implementation "com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0"

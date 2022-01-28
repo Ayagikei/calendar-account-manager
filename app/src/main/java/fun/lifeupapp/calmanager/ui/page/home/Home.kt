@@ -1,38 +1,56 @@
 package `fun`.lifeupapp.calmanager.ui.page.home
 
-import `fun`.lifeupapp.calmanager.MainActivity
 import `fun`.lifeupapp.calmanager.MainViewModel
 import `fun`.lifeupapp.calmanager.R
-import android.view.Window
 import `fun`.lifeupapp.calmanager.common.Resource
 import `fun`.lifeupapp.calmanager.common.Resource.Success
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
-import `fun`.lifeupapp.calmanager.ui.page.about.About
-import `fun`.lifeupapp.calmanager.ui.theme.CalendarManagerTheme
-import `fun`.lifeupapp.calmanager.ui.theme.MYPinkBackground
-import `fun`.lifeupapp.calmanager.ui.theme.MyDarkPinkBackground
+import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
 import android.Manifest.permission
-import android.app.ActionBar
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.icu.text.CaseMap
 import android.net.Uri
 import android.provider.Settings
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -61,22 +79,19 @@ import kotlinx.coroutines.withContext
  * Copyright (c) 2021 AyagiKei
  */
 
+@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalUnitApi
 @ExperimentalPermissionsApi
 @Composable
 fun Home(navController: NavController) {
-    CalendarManagerTheme {
+    CalendarManagerM3Theme {
         // add ProvideWindowInsets
         ProvideWindowInsets {
-
-            //val systemUiController = rememberSystemUiController()
-//            val useDarkIcon = MaterialTheme.colors.isLight
-
-//
             //set status bar color
             rememberSystemUiController().setStatusBarColor(
-                MaterialTheme.colors.background, darkIcons = MaterialTheme.colors.isLight
+                MaterialTheme.colorScheme.background
             )
+
             Scaffold(
                 Modifier
                     .fillMaxWidth()
@@ -86,9 +101,9 @@ fun Home(navController: NavController) {
                     }) {
                         Icon(Filled.Info, contentDescription = "about")
                     }
-                }, isFloatingActionButtonDocked = true
+                }
             ) {
-                Surface(color = MaterialTheme.colors.background, modifier = Modifier.fillMaxHeight()) {
+                Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxHeight()) {
                     Column {
                         val context = LocalContext.current
                         HeaderTitle(context.getString(R.string.app_title))
@@ -187,7 +202,7 @@ fun HeaderTitle(title: String) {
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
             letterSpacing = 0.15.sp,
-            color = MaterialTheme.colors.primary
+            color = MaterialTheme.colorScheme.primary
         )
     )
 }
@@ -211,6 +226,7 @@ fun CalendarInfo(calendars: List<CalendarModel>, viewModel: MainViewModel) {
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
     Card(
@@ -219,7 +235,7 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
             .fillMaxWidth(),
         elevation = 0.dp,
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = MaterialTheme.colors.surface
+        backgroundColor = MaterialTheme.colorScheme.secondaryContainer
     ) {
         var openDialog by remember { mutableStateOf(false) }
         var countDown by remember {
@@ -235,11 +251,11 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
             Column(modifier = Modifier
                 .wrapContentWidth(Alignment.Start)
                 .weight(5f)) {
-                Text(calendarModel.displayName, style = MaterialTheme.typography.h6)
+                Text(calendarModel.displayName, style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     "${calendarModel.accountName} · ${calendarModel.ownerName} · id ${calendarModel.id}",
-                    style = MaterialTheme.typography.body2
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
 
@@ -253,14 +269,16 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
                             countDown = 3
                         }
                         .width(46.dp)
-                        .height(46.dp)) {
+                        .height(46.dp)
+                        .background(color = MaterialTheme.colorScheme.secondaryContainer)) {
                     Icon(
                         Filled.Delete,
                         contentDescription = "delete button",
                         modifier = Modifier
+                            .background(color = MaterialTheme.colorScheme.secondaryContainer)
                             .wrapContentWidth()
                             .wrapContentHeight(),
-                        tint = MaterialTheme.colors.secondary
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
 
@@ -274,6 +292,7 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
                     openDialog = false
                     viewModel.delete(calendarModel.id)
                 })
+            // FIXME: launch effect
             scope.launch {
                 withContext(Dispatchers.IO) {
                     if (countDown > 0) {
@@ -336,7 +355,7 @@ fun DeleteConfirmDialog(
 @Preview(showBackground = true)
 @Composable
 fun CalendarCardPreview() {
-    CalendarManagerTheme {
+    CalendarManagerM3Theme {
         CalendarCard(
             CalendarModel(
                 0L,

@@ -3,20 +3,15 @@ package `fun`.lifeupapp.calmanager
 import `fun`.lifeupapp.calmanager.ui.page.about.About
 import `fun`.lifeupapp.calmanager.ui.page.home.Home
 import android.os.Bundle
-import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
     @ExperimentalPermissionsApi
@@ -33,17 +28,14 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("about") {
                     About()
-                    if(darkMode){
+/*                    if (darkMode) {
                         window?.statusBarColor = Color.Black.toArgb()
-                    }
-                    else
-                    {
+                    } else {
                         window?.statusBarColor = Color.White.toArgb()
-                    }
+                    }*/
                 }
             }
         }
     }
-
 
 }
