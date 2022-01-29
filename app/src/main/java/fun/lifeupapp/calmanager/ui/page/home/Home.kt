@@ -7,6 +7,7 @@ import `fun`.lifeupapp.calmanager.R.string
 import `fun`.lifeupapp.calmanager.common.Resource
 import `fun`.lifeupapp.calmanager.common.Resource.Success
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
+import `fun`.lifeupapp.calmanager.ui.RouteDef
 import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
 import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import android.Manifest.permission
@@ -105,7 +106,7 @@ fun Home(navController: NavController) {
                     .fillMaxWidth()
                     .systemBarsPadding(), floatingActionButton = {
                     FloatingActionButton(onClick = {
-                        navController.navigate("about")
+                        navController.navigate(RouteDef.ABOUT.path)
                     }) {
                         Icon(Filled.Info, contentDescription = "about")
                     }

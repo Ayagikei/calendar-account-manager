@@ -1,5 +1,6 @@
 package `fun`.lifeupapp.calmanager
 
+import `fun`.lifeupapp.calmanager.ui.RouteDef
 import `fun`.lifeupapp.calmanager.ui.page.about.About
 import `fun`.lifeupapp.calmanager.ui.page.home.Home
 import android.os.Bundle
@@ -27,11 +28,11 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "home") {
-                composable("home") {
+            NavHost(navController = navController, startDestination = RouteDef.HOME.path) {
+                composable(RouteDef.HOME.path) {
                     Home(navController)
                 }
-                composable("about") {
+                composable(RouteDef.ABOUT.path) {
                     About()
                 }
             }
