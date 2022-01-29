@@ -8,7 +8,6 @@ import `fun`.lifeupapp.calmanager.common.Resource.Success
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
 import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
 import android.Manifest.permission
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -43,11 +42,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -68,7 +67,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * home page in compose
@@ -221,7 +219,6 @@ fun CalendarInfo(calendars: List<CalendarModel>, viewModel: MainViewModel) {
     }
 }
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
     Card(
@@ -236,7 +233,6 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
         var countDown by remember {
             mutableStateOf(3)
         }
-        val scope = rememberCoroutineScope()
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -291,12 +287,11 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
                     openDialog = false
                     viewModel.delete(calendarModel.id)
                 })
-            // FIXME: launch effect
-            scope.launch {
-                withContext(Dispatchers.IO) {
-                    if (countDown > 0) {
-                        delay(1000L)
-                        countDown -= 1
+            LaunchedEffect(openDialog) {
+                launch(Dispatchers.Default) {
+                    while (countDown > 0) {
+                        delay(1000)
+                        countDown--
                     }
                 }
             }
