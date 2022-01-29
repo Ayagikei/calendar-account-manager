@@ -1,5 +1,6 @@
 package `fun`.lifeupapp.calmanager.ui.page.home
 
+import `fun`.lifeupapp.calmanager.BuildConfig
 import `fun`.lifeupapp.calmanager.MainViewModel
 import `fun`.lifeupapp.calmanager.R
 import `fun`.lifeupapp.calmanager.R.string
@@ -7,6 +8,7 @@ import `fun`.lifeupapp.calmanager.common.Resource
 import `fun`.lifeupapp.calmanager.common.Resource.Success
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
 import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
+import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import android.Manifest.permission
 import android.content.Intent
 import android.net.Uri
@@ -38,6 +40,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -47,6 +51,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -64,9 +69,11 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import splitties.init.appCtx
 
 /**
  * home page in compose
@@ -88,6 +95,11 @@ fun Home(navController: NavController) {
                 MaterialTheme.colorScheme.background
             )
 
+            val snackbarHostState = remember {
+                androidx.compose.material3.SnackbarHostState()
+            }
+            val scope = rememberCoroutineScope()
+
             Scaffold(
                 Modifier
                     .fillMaxWidth()
@@ -97,6 +109,8 @@ fun Home(navController: NavController) {
                     }) {
                         Icon(Filled.Info, contentDescription = "about")
                     }
+                }, snackbarHost = {
+                    androidx.compose.material3.SnackbarHost(hostState = snackbarHostState)
                 }
             ) {
                 Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxHeight()) {
@@ -111,7 +125,7 @@ fun Home(navController: NavController) {
                                     Uri.fromParts("package", context.packageName, null)
                                 )
                             )
-                        }, MainViewModel())
+                        }, MainViewModel(), baseState = BaseState(snackbarHostState, scope))
                     }
                 }
             }
@@ -119,11 +133,17 @@ fun Home(navController: NavController) {
     }
 }
 
+data class BaseState(
+    val snackbarHostState: androidx.compose.material3.SnackbarHostState?,
+    val scope: CoroutineScope
+)
+
 @ExperimentalPermissionsApi
 @Composable
 fun FeatureThatRequiresCalendarPermission(
     navigateToSettingsScreen: () -> Unit,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    baseState: BaseState
 ) {
     // Track if the user doesn't want to see the rationale any more.
     var doNotShowRationale by rememberSaveable { mutableStateOf(false) }
@@ -178,7 +198,7 @@ fun FeatureThatRequiresCalendarPermission(
         val calendarResource: Resource<List<CalendarModel>> by viewModel.calendarList.collectAsState()
         calendarResource.let {
             if (it is Success) {
-                CalendarInfo(calendars = it.item, viewModel = viewModel)
+                CalendarInfo(calendars = it.item, viewModel = viewModel, baseState)
             } else {
                 Text(text = stringResource(R.string.placeholder_loading))
             }
@@ -201,7 +221,11 @@ fun HeaderTitle(title: String) {
 }
 
 @Composable
-fun CalendarInfo(calendars: List<CalendarModel>, viewModel: MainViewModel) {
+fun CalendarInfo(
+    calendars: List<CalendarModel>,
+    viewModel: MainViewModel,
+    baseState: BaseState
+) {
     if (calendars.isEmpty()) {
         Text(
             "It seems that we did not find any calendar accounts",
@@ -210,7 +234,7 @@ fun CalendarInfo(calendars: List<CalendarModel>, viewModel: MainViewModel) {
     } else {
         LazyColumn {
             itemsIndexed(calendars) { index, cal ->
-                CalendarCard(calendarModel = cal, viewModel = viewModel)
+                CalendarCard(calendarModel = cal, viewModel = viewModel, baseState)
                 if (index == calendars.size - 1) {
                     Spacer(modifier = Modifier.height(56.dp))
                 }
@@ -220,7 +244,11 @@ fun CalendarInfo(calendars: List<CalendarModel>, viewModel: MainViewModel) {
 }
 
 @Composable
-fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
+fun CalendarCard(
+    calendarModel: CalendarModel,
+    viewModel: MainViewModel,
+    baseState: BaseState
+) {
     Card(
         modifier = Modifier
             .padding(top = 8.dp, start = 4.dp, end = 4.dp)
@@ -286,6 +314,20 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
                 }, onConfirmAction = {
                     openDialog = false
                     viewModel.delete(calendarModel.id)
+
+                    // show rate us snack bar
+                    if (baseState.snackbarHostState != null) {
+                        baseState.scope.launch(Dispatchers.Main) {
+                            val result = baseState.snackbarHostState.showSnackbar(
+                                message = appCtx.getString(R.string.delete_success_snackbar_message),
+                                actionLabel = appCtx.getString(R.string.btn_rate),
+                                duration = SnackbarDuration.Long
+                            )
+                            if (result == SnackbarResult.ActionPerformed) {
+                                launchStorePage(appCtx, BuildConfig.APPLICATION_ID)
+                            }
+                        }
+                    }
                 })
             LaunchedEffect(openDialog) {
                 launch(Dispatchers.Default) {
@@ -357,7 +399,8 @@ fun CalendarCardPreview() {
                 "accountName",
                 "ownerName"
             ),
-            MainViewModel()
+            MainViewModel(),
+            BaseState(null, rememberCoroutineScope())
         )
     }
 }

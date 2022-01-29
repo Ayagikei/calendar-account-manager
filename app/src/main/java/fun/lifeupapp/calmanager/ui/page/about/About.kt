@@ -6,7 +6,7 @@ import `fun`.lifeupapp.calmanager.common.Val
 import `fun`.lifeupapp.calmanager.ui.page.home.HeaderTitle
 import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
 import `fun`.lifeupapp.calmanager.utils.VersionUtil
-import `fun`.lifeupapp.calmanager.utils.logE
+import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Canvas
@@ -137,15 +137,7 @@ fun About() {
                             append("\n")
                             append(stringResource(string.about_lifeup_desc))
                         }, Icons.Default.Favorite) {
-                            try {
-                                val uri = Uri.parse("market://details?id=net.sarasarasa.lifeup")
-                                val intent = Intent(Intent.ACTION_VIEW, uri)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                context.startActivity(intent)
-                            } catch (e: Exception) {
-                                toast(string.about_not_found_android_store)
-                                logE(e)
-                            }
+                            launchStorePage(context, "net.sarasarasa.lifeup")
                         }
                     }
                 }
