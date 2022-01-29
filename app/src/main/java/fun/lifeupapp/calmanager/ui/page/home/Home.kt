@@ -53,12 +53,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsHeight
@@ -198,12 +195,9 @@ fun HeaderTitle(title: String) {
             .fillMaxWidth()
     )
     Text(
-        title, Modifier.padding(start = 16.dp, bottom = 16.dp), style = TextStyle(
-            fontWeight = FontWeight.Bold,
-            fontSize = 22.sp,
-            letterSpacing = 0.15.sp,
-            color = MaterialTheme.colorScheme.primary
-        )
+        title,
+        Modifier.padding(start = 16.dp, bottom = 16.dp),
+        style = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.primary)
     )
 }
 
@@ -248,9 +242,11 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(modifier = Modifier
-                .wrapContentWidth(Alignment.Start)
-                .weight(5f)) {
+            Column(
+                modifier = Modifier
+                    .wrapContentWidth(Alignment.Start)
+                    .weight(5f)
+            ) {
                 Text(calendarModel.displayName, style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -259,9 +255,11 @@ fun CalendarCard(calendarModel: CalendarModel, viewModel: MainViewModel) {
                 )
             }
 
-            Column(modifier = Modifier
-                .wrapContentWidth(Alignment.End)
-                .weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .wrapContentWidth(Alignment.End)
+                    .weight(1f)
+            ) {
                 Surface(
                     Modifier
                         .clickable {

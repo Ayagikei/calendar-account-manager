@@ -5,7 +5,6 @@ import `fun`.lifeupapp.calmanager.ui.page.home.Home
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
@@ -21,7 +20,6 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val navController = rememberNavController()
-            val darkMode = isSystemInDarkTheme()
             NavHost(navController = navController, startDestination = "home") {
                 composable("home") {
                     Home(navController)
