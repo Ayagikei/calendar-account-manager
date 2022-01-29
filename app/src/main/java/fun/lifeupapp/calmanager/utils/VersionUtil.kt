@@ -1,8 +1,17 @@
 package `fun`.lifeupapp.calmanager.utils
 
 import android.content.Context
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 
+/**
+ * version util
+ *
+ * MIT License
+ * Copyright (c) 2022 AyagiKei
+ */
 object VersionUtil {
     /**
      * get version code of the app
@@ -11,12 +20,15 @@ object VersionUtil {
      *
      * @return int version code
      */
-    fun getLocalVersion(ctx: Context): Int {
+    fun getLocalVersion(ctx: Context): Long {
         return try {
-            val packageInfo = ctx.applicationContext
-                .packageManager
-                .getPackageInfo(ctx.packageName, 0)
-            packageInfo.versionCode
+            val packageInfo = getPackageInfo(ctx)
+            if (VERSION.SDK_INT >= VERSION_CODES.P) {
+                packageInfo.longVersionCode
+            } else {
+                @Suppress("DEPRECATION")
+                packageInfo.versionCode.toLong()
+            }
         } catch (e: PackageManager.NameNotFoundException) {
             logE(e)
             0
@@ -32,13 +44,17 @@ object VersionUtil {
      */
     fun getLocalVersionName(ctx: Context): String {
         return try {
-            val packageInfo = ctx.applicationContext
-                .packageManager
-                .getPackageInfo(ctx.packageName, 0)
+            val packageInfo = getPackageInfo(ctx)
             packageInfo.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             logE(e)
             ""
         }
+    }
+
+    private fun getPackageInfo(ctx: Context): PackageInfo {
+        return (ctx.applicationContext ?: ctx)
+            .packageManager
+            .getPackageInfo(ctx.packageName, 0)
     }
 }

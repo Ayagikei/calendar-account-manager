@@ -12,7 +12,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
+/**
+ * Entry point of the application.
+ *
+ * MIT License
+ * Copyright (c) 2022 AyagiKei
+ */
 class MainActivity : ComponentActivity() {
+
     @ExperimentalPermissionsApi
     @ExperimentalUnitApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,11 +33,6 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("about") {
                     About()
-/*                    if (darkMode) {
-                        window?.statusBarColor = Color.Black.toArgb()
-                    } else {
-                        window?.statusBarColor = Color.White.toArgb()
-                    }*/
                 }
             }
         }

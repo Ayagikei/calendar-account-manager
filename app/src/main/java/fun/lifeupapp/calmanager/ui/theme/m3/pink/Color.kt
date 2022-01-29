@@ -1,4 +1,4 @@
-package `fun`.lifeupapp.calmanager.ui.theme.m3
+package `fun`.lifeupapp.calmanager.ui.theme.m3.pink
 
 import androidx.compose.ui.graphics.Color
 

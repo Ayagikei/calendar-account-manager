@@ -1,4 +1,4 @@
-package `fun`.lifeupapp.calmanager.ui.theme.m3
+package `fun`.lifeupapp.calmanager.ui.theme.m3.green
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +33,7 @@ private val LightThemeColors = lightColorScheme(
     outline = md_theme_light_outline,
     inverseOnSurface = md_theme_light_inverseOnSurface,
     inverseSurface = md_theme_light_inverseSurface,
+    inversePrimary = md_theme_light_inversePrimary,
 )
 private val DarkThemeColors = darkColorScheme(
 
@@ -61,10 +62,11 @@ private val DarkThemeColors = darkColorScheme(
     outline = md_theme_dark_outline,
     inverseOnSurface = md_theme_dark_inverseOnSurface,
     inverseSurface = md_theme_dark_inverseSurface,
+    inversePrimary = md_theme_dark_inversePrimary,
 )
 
 @Composable
-fun CalendarManagerM3Theme(
+fun GreenAppTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {

@@ -5,7 +5,12 @@ import `fun`.lifeupapp.calmanager.common.Resource.Companion.isError
 import `fun`.lifeupapp.calmanager.datasource.CalendarDataSource
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
 import `fun`.lifeupapp.calmanager.utils.logD
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import splitties.init.appCtx
-
 
 /**
  * main view model to receive data from datasource
@@ -57,9 +61,12 @@ class MainViewModel : ViewModel(), LifecycleObserver {
              }.onFailure {
                  _calendarList.value = Resource.error(it)
              }
-        }
+         }
     }
 
+    /**
+     * delete calendar account with [id]
+     */
     fun delete(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             CalendarDataSource.deleteTheAccount(appCtx, id)

@@ -6,7 +6,10 @@ private const val COMMON_TAG = "CalManager"
 
 
 /**
- * 日志顶级方法
+ * log utils
+ *
+ * MIT License
+ * Copyright (c) 2022 AyagiKei
  */
 fun logI(msg: String) {
     Log.i(COMMON_TAG, msg)

@@ -1,6 +1,7 @@
 package `fun`.lifeupapp.calmanager.ui.page.about
 
 import `fun`.lifeupapp.calmanager.R
+import `fun`.lifeupapp.calmanager.R.string
 import `fun`.lifeupapp.calmanager.common.Val
 import `fun`.lifeupapp.calmanager.ui.page.home.HeaderTitle
 import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
@@ -39,7 +40,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -47,7 +47,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -73,78 +72,80 @@ fun About() {
                     .fillMaxHeight()
                     .systemBarsPadding()
             ) {
-                HeaderTitle(stringResource(R.string.about_title))
-                Column(
-                    Modifier
-                        .padding(start = 16.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    AppIcon()
-                    Spacer(modifier = Modifier.padding(top = 16.dp))
-                    Text(
-                        stringResource(R.string.about_appname),
-                        style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.secondary)
-                    )
-                    Spacer(modifier = Modifier.padding(top = 2.dp))
-                    val color = MaterialTheme.colorScheme.secondary
-                    Canvas(
-                        modifier = Modifier
-                            .height(4.dp)
-                            .width(32.dp)
+                Column {
+                    HeaderTitle(stringResource(R.string.about_title))
+                    Column(
+                        Modifier
+                            .padding(start = 16.dp)
+                            .verticalScroll(rememberScrollState())
                     ) {
-                        drawRect(color = color, size = size)
-                    }
-                    Text(
-                        stringResource(R.string.about_app_desc),
-                        Modifier.padding(top = 16.dp, end = 16.dp),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    AboutSubTitleWithSpacers(stringResource(R.string.about_versions))
-                    AboutBodyText(
-                        "v${VersionUtil.getLocalVersionName(appCtx)} (${
-                            VersionUtil.getLocalVersion(
-                                appCtx
-                            )
-                        })"
-                    )
-                    AboutSubTitleWithSpacers(stringResource(R.string.about_permission))
-                    AboutBodyText(stringResource(R.string.about_permission_desc))
-                    AboutSubTitleWithSpacers(stringResource(R.string.about_link))
-
-                    val context = LocalContext.current
-                    val intentViewGithub =
-                        remember { Intent(Intent.ACTION_VIEW, Uri.parse(Val.GITHUB_LINK)) }
-                    ClickableBodyText(
-                        stringResource(R.string.about_link_github),
-                        Icons.Default.Star
-                    ) {
-                        kotlin.runCatching {
-                            context.startActivity(intentViewGithub)
-                        }.onFailure {
-                            toast(R.string.about_toast_failed_to_open)
-                        }
-                    }
-
-                    ClickableBodyText(buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                                fontStyle = FontStyle.Italic
-                            )
+                        AppIcon()
+                        Spacer(modifier = Modifier.padding(top = 16.dp))
+                        Text(
+                            stringResource(string.about_appname),
+                            style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.secondary)
+                        )
+                        Spacer(modifier = Modifier.padding(top = 2.dp))
+                        val color = MaterialTheme.colorScheme.secondary
+                        Canvas(
+                            modifier = Modifier
+                                .height(4.dp)
+                                .width(32.dp)
                         ) {
-                            append("LifeUp")
+                            drawRect(color = color, size = size)
                         }
-                        append("\n")
-                        append(stringResource(R.string.about_lifeup_desc))
-                    }, Icons.Default.Favorite) {
-                        try {
-                            val uri = Uri.parse("market://details?id=net.sarasarasa.lifeup")
-                            val intent = Intent(Intent.ACTION_VIEW, uri)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            context.startActivity(intent)
-                        } catch (e: Exception) {
-                            toast(R.string.about_not_found_android_store)
-                            logE(e)
+                        Text(
+                            stringResource(string.about_app_desc),
+                            Modifier.padding(top = 16.dp, end = 16.dp),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        AboutSubTitleWithSpacers(stringResource(string.about_versions))
+                        AboutBodyText(
+                            "v${VersionUtil.getLocalVersionName(appCtx)} (${
+                                VersionUtil.getLocalVersion(
+                                    appCtx
+                                )
+                            })"
+                        )
+                        AboutSubTitleWithSpacers(stringResource(string.about_permission))
+                        AboutBodyText(stringResource(string.about_permission_desc))
+                        AboutSubTitleWithSpacers(stringResource(string.about_link))
+
+                        val context = LocalContext.current
+                        val intentViewGithub =
+                            remember { Intent(Intent.ACTION_VIEW, Uri.parse(Val.GITHUB_LINK)) }
+                        ClickableBodyText(
+                            stringResource(string.about_link_github),
+                            Icons.Default.Star
+                        ) {
+                            kotlin.runCatching {
+                                context.startActivity(intentViewGithub)
+                            }.onFailure {
+                                toast(string.about_toast_failed_to_open)
+                            }
+                        }
+
+                        ClickableBodyText(buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontStyle = FontStyle.Italic
+                                )
+                            ) {
+                                append("LifeUp")
+                            }
+                            append("\n")
+                            append(stringResource(string.about_lifeup_desc))
+                        }, Icons.Default.Favorite) {
+                            try {
+                                val uri = Uri.parse("market://details?id=net.sarasarasa.lifeup")
+                                val intent = Intent(Intent.ACTION_VIEW, uri)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                context.startActivity(intent)
+                            } catch (e: Exception) {
+                                toast(string.about_not_found_android_store)
+                                logE(e)
+                            }
                         }
                     }
                 }
@@ -158,7 +159,7 @@ private fun AppIcon() {
     Image(
         painter = painterResource(id = R.drawable.ic_calendar),
         contentDescription = "icon",
-        modifier = Modifier.size(48.dp)
+        modifier = Modifier.size(36.dp)
     )
 }
 
@@ -213,10 +214,7 @@ fun ClickableBodyText(text: AnnotatedString, icon: ImageVector, onClick: () -> U
         Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.secondary)
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text, style = TextStyle(
-                fontSize = 14.sp,
-                letterSpacing = 0.15.sp
-            )
+            text, style = MaterialTheme.typography.bodySmall
         )
     }
 }

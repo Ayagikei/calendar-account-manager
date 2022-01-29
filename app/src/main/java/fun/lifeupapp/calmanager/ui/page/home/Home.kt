@@ -2,6 +2,7 @@ package `fun`.lifeupapp.calmanager.ui.page.home
 
 import `fun`.lifeupapp.calmanager.MainViewModel
 import `fun`.lifeupapp.calmanager.R
+import `fun`.lifeupapp.calmanager.R.string
 import `fun`.lifeupapp.calmanager.common.Resource
 import `fun`.lifeupapp.calmanager.common.Resource.Success
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
@@ -103,9 +104,9 @@ fun Home(navController: NavController) {
                 Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxHeight()) {
                     Column {
                         val context = LocalContext.current
-                        HeaderTitle(context.getString(R.string.app_title))
+                        HeaderTitle(context.getString(string.app_title))
                         // request permission and list calendar accounts
-                        FeatureThatRequiresCameraPermission(navigateToSettingsScreen = {
+                        FeatureThatRequiresCalendarPermission(navigateToSettingsScreen = {
                             context.startActivity(
                                 Intent(
                                     Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -122,7 +123,7 @@ fun Home(navController: NavController) {
 
 @ExperimentalPermissionsApi
 @Composable
-fun FeatureThatRequiresCameraPermission(
+fun FeatureThatRequiresCalendarPermission(
     navigateToSettingsScreen: () -> Unit,
     viewModel: MainViewModel
 ) {
