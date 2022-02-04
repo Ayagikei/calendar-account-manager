@@ -1,4 +1,8 @@
 <resources>
-  <!-- Base application theme. -->
-  <style name="Theme.Calendar_manager" parent="Theme.Material3.DayNight" />
+    <!-- Base application theme. -->
+    <style name="Theme.Calendar_manager" parent="Theme.SplashScreen.IconBackground">
+        <item name="postSplashScreenTheme">@style/Theme.Material3.DayNight</item>
+        <item name="windowSplashScreenBackground">@android:color/background_light</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+    </style>
 </resources>

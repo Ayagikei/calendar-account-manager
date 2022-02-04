@@ -5,12 +5,7 @@ import `fun`.lifeupapp.calmanager.common.Resource.Companion.isError
 import `fun`.lifeupapp.calmanager.datasource.CalendarDataSource
 import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
 import `fun`.lifeupapp.calmanager.utils.logD
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,10 +46,10 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun fetch() {
          viewModelScope.launch(Dispatchers.IO) {
-             logD(TAG, "fetching calendar accounts list")
              if(lastJob?.isActive == true){
                  return@launch
              }
+             logD(TAG, "fetching calendar accounts list")
              lastJob = this.coroutineContext.job
              CalendarDataSource.listAccounts(appCtx).onSuccess {
                  _calendarList.value = Resource.success(it)
