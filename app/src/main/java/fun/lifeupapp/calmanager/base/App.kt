@@ -1,7 +1,6 @@
 package `fun`.lifeupapp.calmanager.base
 
 import android.app.Application
-import com.google.android.material.color.DynamicColors
 
 /**
  * our application class
@@ -9,10 +8,4 @@ import com.google.android.material.color.DynamicColors
  * MIT License
  * Copyright (c) 2021 AyagiKei
  */
-class App : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        // This is all you need to use the dynamic colors feature.
-        DynamicColors.applyToActivitiesIfAvailable(this)
-    }
-}
+class App : Application()

@@ -1,10 +1,12 @@
 package `fun`.lifeupapp.calmanager.ui.theme.m3.blue
 
+import `fun`.lifeupapp.calmanager.ui.theme.m3.applyDynamicColorsIfAvailable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 
 private val LightThemeColors = lightColorScheme(
 
@@ -77,7 +79,7 @@ fun BlueAppTheme(
     }
 
     MaterialTheme(
-        colorScheme = colors,
+        colorScheme = applyDynamicColorsIfAvailable(LocalContext.current, useDarkTheme, colors),
         typography = AppTypography,
         content = content
     )

@@ -3,6 +3,7 @@ package `fun`.lifeupapp.calmanager
 import `fun`.lifeupapp.calmanager.ui.RouteDef
 import `fun`.lifeupapp.calmanager.ui.page.about.About
 import `fun`.lifeupapp.calmanager.ui.page.home.Home
+import `fun`.lifeupapp.calmanager.ui.theme.m3.rerollTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,6 +28,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        rerollTheme()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val navController = rememberNavController()
