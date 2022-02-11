@@ -1,6 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
   <!-- Base application theme. -->
-  <style name="Theme.Calendar_manager" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-
-  </style>
+  <style name="Theme.Calendar_manager" parent="Theme.Material3.DayNight" />
 </resources>

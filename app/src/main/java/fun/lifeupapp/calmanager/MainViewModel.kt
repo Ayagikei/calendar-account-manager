@@ -14,7 +14,6 @@ import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import splitties.init.appCtx
 
-
 /**
  * main view model to receive data from datasource
  *
@@ -47,19 +46,22 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun fetch() {
          viewModelScope.launch(Dispatchers.IO) {
-             logD(TAG, "fetching calendar accounts list")
              if(lastJob?.isActive == true){
                  return@launch
              }
+             logD(TAG, "fetching calendar accounts list")
              lastJob = this.coroutineContext.job
              CalendarDataSource.listAccounts(appCtx).onSuccess {
                  _calendarList.value = Resource.success(it)
              }.onFailure {
                  _calendarList.value = Resource.error(it)
              }
-        }
+         }
     }
 
+    /**
+     * delete calendar account with [id]
+     */
     fun delete(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             CalendarDataSource.deleteTheAccount(appCtx, id)
