@@ -29,9 +29,11 @@ Please follow our commit message standard. Other than that, there are no special
 4. Add rate us snack bar after deletion
 
 **Version 1.1**
+
 Fix UI issues in night mode —— Thanks to @somilror200
 
 **Version 1.0**
+
 First Release
 
 - Green Material You theme color switch
