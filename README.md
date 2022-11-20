@@ -1,10 +1,23 @@
-## Calendar Account Manager
+<p align="center">
+ <img src="https://github.com/Ayagikei/calendar-account-manager/raw/main/imgs/02.jpg" style="height:600px" />
+</p>
 
-![](https://github.com/Ayagikei/calendar-account-manager/raw/main/imgs/02.jpg)
+<h2 align="center" padding="100">Calendar Account Manager</h2>
 
-[![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png "CalendarManager")](https://play.google.com/store/apps/details?id=fun.lifeupapp.calmanager&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+<p align="center">Help you delete unwanted calendar accounts!</p>
 
-## What's it?
+
+### Installation
+
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=fun.lifeupapp.calmanager&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+    <img src="https://img.shields.io/static/v1?labelColor=56595b&color=97db99&logo=google-play&logoColor=ffffff&label=google play&style=for-the-badge&message=get"/>
+  </a>
+</p>
+
+<br/>
+
+### What's it?
 
 If you are being bothered by a calendar account that doesn't know where it popped up, then this
 software is designed for you.
@@ -13,13 +26,13 @@ The main function of this model is to query all calendar accounts and provide a 
 
 > In addition, this is my compose practice project.
 
-## Contribution
+### Contribution
 
 We're glad to review all pull request. Please free feel to improve this project.
 
 Please follow our commit message standard. Other than that, there are no special requirements.
 
-## Release Log
+### Release Log
 
 **Version 1.2**
 
