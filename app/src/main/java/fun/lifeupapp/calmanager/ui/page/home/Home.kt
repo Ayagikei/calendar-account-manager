@@ -1,15 +1,5 @@
 package `fun`.lifeupapp.calmanager.ui.page.home
 
-import `fun`.lifeupapp.calmanager.BuildConfig
-import `fun`.lifeupapp.calmanager.MainViewModel
-import `fun`.lifeupapp.calmanager.R
-import `fun`.lifeupapp.calmanager.R.string
-import `fun`.lifeupapp.calmanager.common.Resource
-import `fun`.lifeupapp.calmanager.common.Resource.Success
-import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
-import `fun`.lifeupapp.calmanager.ui.RouteDef
-import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
-import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import android.Manifest.permission
 import android.content.Intent
 import android.net.Uri
@@ -20,11 +10,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,7 +30,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -63,13 +56,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.statusBarsHeight
-import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import `fun`.lifeupapp.calmanager.BuildConfig
+import `fun`.lifeupapp.calmanager.MainViewModel
+import `fun`.lifeupapp.calmanager.R
+import `fun`.lifeupapp.calmanager.R.string
+import `fun`.lifeupapp.calmanager.common.Resource
+import `fun`.lifeupapp.calmanager.common.Resource.Success
+import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
+import `fun`.lifeupapp.calmanager.ui.RouteDef
+import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
+import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -80,54 +79,55 @@ import splitties.init.appCtx
  * home page in compose
  *
  * MIT License
- * Copyright (c) 2021 AyagiKei
+ * Copyright (c) 2023 AyagiKei
  */
 
-@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalUnitApi
 @ExperimentalPermissionsApi
 @Composable
 fun Home(navController: NavController) {
     CalendarManagerM3Theme {
-        // add ProvideWindowInsets
-        ProvideWindowInsets {
-            //set status bar color
-            rememberSystemUiController().setStatusBarColor(
-                MaterialTheme.colorScheme.background
-            )
+        //set status bar color
+        rememberSystemUiController().setStatusBarColor(
+            MaterialTheme.colorScheme.background
+        )
 
-            val snackbarHostState = remember {
-                androidx.compose.material3.SnackbarHostState()
-            }
-            val scope = rememberCoroutineScope()
+        val snackbarHostState = remember {
+            androidx.compose.material3.SnackbarHostState()
+        }
+        val scope = rememberCoroutineScope()
 
-            Scaffold(
-                Modifier
-                    .fillMaxWidth()
-                    .systemBarsPadding(), floatingActionButton = {
-                    FloatingActionButton(onClick = {
-                        navController.navigate(RouteDef.ABOUT.path)
-                    }) {
-                        Icon(Filled.Info, contentDescription = "about")
-                    }
-                }, snackbarHost = {
-                    androidx.compose.material3.SnackbarHost(hostState = snackbarHostState)
+        Scaffold(
+            Modifier
+                .fillMaxWidth()
+                .systemBarsPadding(), floatingActionButton = {
+                FloatingActionButton(onClick = {
+                    navController.navigate(RouteDef.ABOUT.path)
+                }) {
+                    Icon(Filled.Info, contentDescription = "about")
                 }
+            }, snackbarHost = {
+                androidx.compose.material3.SnackbarHost(hostState = snackbarHostState)
+            }
+        ) {
+            Surface(
+                color = MaterialTheme.colorScheme.background,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(it)
             ) {
-                Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxHeight()) {
-                    Column {
-                        val context = LocalContext.current
-                        HeaderTitle(context.getString(string.app_title))
-                        // request permission and list calendar accounts
-                        FeatureThatRequiresCalendarPermission(navigateToSettingsScreen = {
-                            context.startActivity(
-                                Intent(
-                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                    Uri.fromParts("package", context.packageName, null)
-                                )
+                Column {
+                    val context = LocalContext.current
+                    HeaderTitle(context.getString(string.app_title))
+                    // request permission and list calendar accounts
+                    FeatureThatRequiresCalendarPermission(navigateToSettingsScreen = {
+                        context.startActivity(
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", context.packageName, null)
                             )
-                        }, MainViewModel(), baseState = BaseState(snackbarHostState, scope))
-                    }
+                        )
+                    }, MainViewModel(), baseState = BaseState(snackbarHostState, scope))
                 }
             }
         }
@@ -158,44 +158,7 @@ fun FeatureThatRequiresCalendarPermission(
 
     if (cameraPermissionState.allPermissionsGranted) {
         viewModel.fetchIfError()
-    }
 
-    PermissionsRequired(
-        multiplePermissionsState = cameraPermissionState,
-        permissionsNotGrantedContent = {
-            if (doNotShowRationale) {
-                Text(stringResource(R.string.text_do_not_show_rationale))
-            } else {
-                Column {
-                    Text(
-                        stringResource(R.string.text_permission_require_desc),
-                        Modifier.padding(horizontal = 16.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(Modifier.padding(horizontal = 16.dp)) {
-                        Button(onClick = { doNotShowRationale = true }) {
-                            Text(stringResource(R.string.button_nope))
-                        }
-                        Spacer(Modifier.width(8.dp))
-                        Button(onClick = { cameraPermissionState.launchMultiplePermissionRequest() }) {
-                            Text(stringResource(R.string.button_ok))
-                        }
-                    }
-                }
-            }
-        },
-        permissionsNotAvailableContent = {
-            Column {
-                Text(
-                    stringResource(R.string.text_permissions_not_available)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = navigateToSettingsScreen) {
-                    Text(stringResource(R.string.button_open_settings))
-                }
-            }
-        }
-    ) {
         val calendarResource: Resource<List<CalendarModel>> by viewModel.calendarList.collectAsState()
         calendarResource.let {
             if (it is Success) {
@@ -204,14 +167,54 @@ fun FeatureThatRequiresCalendarPermission(
                 Text(text = stringResource(R.string.placeholder_loading))
             }
         }
+    } else {
+        if (cameraPermissionState.shouldShowRationale.not()) {
+            Text(stringResource(R.string.text_do_not_show_rationale))
+        } else {
+            Column {
+                Text(
+                    stringResource(R.string.text_permission_require_desc),
+                    Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(Modifier.padding(horizontal = 16.dp)) {
+                    Button(onClick = { doNotShowRationale = true }) {
+                        Text(stringResource(R.string.button_nope))
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    Button(onClick = { cameraPermissionState.launchMultiplePermissionRequest() }) {
+                        Text(stringResource(R.string.button_ok))
+                    }
+                }
+            }
+        }
     }
+
+//    PermissionsRequired(
+//        multiplePermissionsState = cameraPermissionState,
+//        permissionsNotGrantedContent = {
+//
+//        },
+//        permissionsNotAvailableContent = {
+//            Column {
+//                Text(
+//                    stringResource(R.string.text_permissions_not_available)
+//                )
+//                Spacer(modifier = Modifier.height(8.dp))
+//                Button(onClick = navigateToSettingsScreen) {
+//                    Text(stringResource(R.string.button_open_settings))
+//                }
+//            }
+//        }
+//    )
 }
 
 @Composable
 fun HeaderTitle(title: String) {
+    WindowInsets
     Spacer(
         modifier = Modifier
-            .statusBarsHeight()
+            .windowInsetsTopHeight(WindowInsets.statusBars)
             .fillMaxWidth()
     )
     Text(
