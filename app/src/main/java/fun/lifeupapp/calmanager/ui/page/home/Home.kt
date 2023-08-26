@@ -171,6 +171,10 @@ fun FeatureThatRequiresCalendarPermission(
     } else {
         if (cameraPermissionState.shouldShowRationale.not()) {
             Text(stringResource(R.string.text_do_not_show_rationale))
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = navigateToSettingsScreen) {
+                Text(stringResource(R.string.button_open_settings))
+            }
         } else {
             Column {
                 Text(
