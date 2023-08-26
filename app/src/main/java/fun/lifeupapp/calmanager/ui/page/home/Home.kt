@@ -190,24 +190,6 @@ fun FeatureThatRequiresCalendarPermission(
             }
         }
     }
-
-//    PermissionsRequired(
-//        multiplePermissionsState = cameraPermissionState,
-//        permissionsNotGrantedContent = {
-//
-//        },
-//        permissionsNotAvailableContent = {
-//            Column {
-//                Text(
-//                    stringResource(R.string.text_permissions_not_available)
-//                )
-//                Spacer(modifier = Modifier.height(8.dp))
-//                Button(onClick = navigateToSettingsScreen) {
-//                    Text(stringResource(R.string.button_open_settings))
-//                }
-//            }
-//        }
-//    )
 }
 
 @Composable
@@ -320,8 +302,8 @@ fun CalendarCard(
                     openDialog = false
                     viewModel.delete(calendarModel.id)
 
-                    // show rate us snack bar
-                    if (baseState.snackbarHostState != null) {
+                    // show rate us snack bar only once in lifecycle
+                    if (viewModel.shouldShownRateUs.value && baseState.snackbarHostState != null) {
                         baseState.scope.launch(Dispatchers.Main) {
                             val result = baseState.snackbarHostState.showSnackbar(
                                 message = appCtx.getString(R.string.delete_success_snackbar_message),

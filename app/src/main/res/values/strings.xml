@@ -23,6 +23,6 @@
   <string name="about_lifeup_desc"><![CDATA[a gamification To-Do & Habit Application]]></string>
   <string name="about_link">Link</string>
   <string name="about_not_found_android_store">failed to open google play or other app store</string>
-  <string name="delete_success_snackbar_message">Please consider to rate us on Play Store if this app helps you!</string>
+  <string name="delete_success_snackbar_message">Please consider to rate us on Play Store if this app helps you!\n\nAnd we are committed to developing one-time buyout or free productive apps, welcome to pay attention to our other apps.</string>
   <string name="btn_rate">Rate</string>
 </resources>

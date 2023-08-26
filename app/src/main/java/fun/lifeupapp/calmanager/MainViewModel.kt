@@ -31,6 +31,9 @@ class MainViewModel : ViewModel(), LifecycleObserver {
 
     private var lastJob: Job? = null
 
+    private val _shouldShownRateUs = MutableStateFlow(true)
+    val shouldShownRateUs: StateFlow<Boolean> = _shouldShownRateUs
+
     companion object {
         private const val TAG = "MainViewModel"
     }
@@ -77,6 +80,10 @@ class MainViewModel : ViewModel(), LifecycleObserver {
             CalendarDataSource.deleteTheAccount(appCtx, id)
             fetch()
         }
+    }
+
+    fun hasShownRateUs() {
+        _shouldShownRateUs.value = false
     }
 
     override fun onCleared() {

@@ -23,6 +23,6 @@
   <string name="about_lifeup_desc"><![CDATA[一款游戏化的待办事项和习惯养成应用]]></string>
   <string name="about_link">链接</string>
   <string name="about_not_found_android_store">打开谷歌Play或者其他应用商店失败</string>
-  <string name="delete_success_snackbar_message">如果App帮到了你，可以考虑给我们评个分~</string>
+  <string name="delete_success_snackbar_message">如果App帮到了你，可以考虑给我们评个分~\n\n并且我们致力于开发一次性买断或免费的效率应用，欢迎关注我们的其他应用。</string>
   <string name="btn_rate">评分</string>
 </resources>
