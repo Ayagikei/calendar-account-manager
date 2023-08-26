@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -64,78 +65,85 @@ import splitties.toast.toast
 @Composable
 fun About() {
     CalendarManagerM3Theme {
-        Surface(
-            color = MaterialTheme.colorScheme.surface,
-            modifier = Modifier
-                .fillMaxHeight()
+        Scaffold(
+            Modifier
+                .fillMaxWidth()
                 .systemBarsPadding()
         ) {
-            Column {
-                HeaderTitle(stringResource(string.about_title))
-                Column(
-                    Modifier
-                        .padding(start = 16.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    AppIcon()
-                    Spacer(modifier = Modifier.padding(top = 16.dp))
-                    Text(
-                        stringResource(string.about_appname),
-                        style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.secondary)
-                    )
-                    Spacer(modifier = Modifier.padding(top = 2.dp))
-                    val color = MaterialTheme.colorScheme.secondary
-                    Canvas(
-                        modifier = Modifier
-                            .height(4.dp)
-                            .width(32.dp)
+            Surface(
+                color = MaterialTheme.colorScheme.surface,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .systemBarsPadding()
+                    .padding(it)
+            ) {
+                Column {
+                    HeaderTitle(stringResource(string.about_title))
+                    Column(
+                        Modifier
+                            .padding(start = 16.dp)
+                            .verticalScroll(rememberScrollState())
                     ) {
-                        drawRect(color = color, size = size)
-                    }
-                    Text(
-                        stringResource(string.about_app_desc),
-                        Modifier.padding(top = 16.dp, end = 16.dp),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    AboutSubTitleWithSpacers(stringResource(string.about_versions))
-                    AboutBodyText(
-                        "v${VersionUtil.getLocalVersionName(appCtx)} (${
-                            VersionUtil.getLocalVersion(
-                                appCtx
-                            )
-                        })"
-                    )
-                    AboutSubTitleWithSpacers(stringResource(string.about_permission))
-                    AboutBodyText(stringResource(string.about_permission_desc))
-                    AboutSubTitleWithSpacers(stringResource(string.about_link))
-
-                    val context = LocalContext.current
-                    val intentViewGithub =
-                        remember { Intent(Intent.ACTION_VIEW, Uri.parse(Val.GITHUB_LINK)) }
-                    ClickableBodyText(
-                        stringResource(string.about_link_github),
-                        Icons.Default.Star
-                    ) {
-                        kotlin.runCatching {
-                            context.startActivity(intentViewGithub)
-                        }.onFailure {
-                            toast(string.about_toast_failed_to_open)
-                        }
-                    }
-
-                    ClickableBodyText(buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                                fontStyle = FontStyle.Italic
-                            )
+                        AppIcon()
+                        Spacer(modifier = Modifier.padding(top = 16.dp))
+                        Text(
+                            stringResource(string.about_appname),
+                            style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.secondary)
+                        )
+                        Spacer(modifier = Modifier.padding(top = 2.dp))
+                        val color = MaterialTheme.colorScheme.secondary
+                        Canvas(
+                            modifier = Modifier
+                                .height(4.dp)
+                                .width(32.dp)
                         ) {
-                            append("LifeUp")
+                            drawRect(color = color, size = size)
                         }
-                        append("\n")
-                        append(stringResource(string.about_lifeup_desc))
-                    }, Icons.Default.Favorite) {
-                        launchStorePage(context, "net.sarasarasa.lifeup")
+                        Text(
+                            stringResource(string.about_app_desc),
+                            Modifier.padding(top = 16.dp, end = 16.dp),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        AboutSubTitleWithSpacers(stringResource(string.about_versions))
+                        AboutBodyText(
+                            "v${VersionUtil.getLocalVersionName(appCtx)} (${
+                                VersionUtil.getLocalVersion(
+                                    appCtx
+                                )
+                            })"
+                        )
+                        AboutSubTitleWithSpacers(stringResource(string.about_permission))
+                        AboutBodyText(stringResource(string.about_permission_desc))
+                        AboutSubTitleWithSpacers(stringResource(string.about_link))
+
+                        val context = LocalContext.current
+                        val intentViewGithub =
+                            remember { Intent(Intent.ACTION_VIEW, Uri.parse(Val.GITHUB_LINK)) }
+                        ClickableBodyText(
+                            stringResource(string.about_link_github),
+                            Icons.Default.Star
+                        ) {
+                            kotlin.runCatching {
+                                context.startActivity(intentViewGithub)
+                            }.onFailure {
+                                toast(string.about_toast_failed_to_open)
+                            }
+                        }
+
+                        ClickableBodyText(buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontStyle = FontStyle.Italic
+                                )
+                            ) {
+                                append("LifeUp")
+                            }
+                            append("\n")
+                            append(stringResource(string.about_lifeup_desc))
+                        }, Icons.Default.Favorite) {
+                            launchStorePage(context, "net.sarasarasa.lifeup")
+                        }
                     }
                 }
             }
