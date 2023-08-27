@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Calendar Account Manager</string>
+    <string name="dialog_button_dismiss">አሰናብት</string>
+    <string name="dialog_button_confirm">አረጋግጥ</string>
+    <string name="dialog_title_delete">ሰርዝ</string>
+    <string name="dialog_message_delete_cal_account">እባክህ የቀን መቁጠሪያውን መሰረዝ መፈለግህን አረጋግጥ፡ %1$s።\n\nይህ ተግባር ሊቀለበስ አይችልም፣ እና በመለያው ስር ያሉ ክስተቶችም ይሰረዛሉ።\n\nእባክህ በጥንቃቄ ስራ።</string>
+    <string name="placeholder_loading">በመጫን ላይ...</string>
+    <string name="app_title">የቀን መቁጠሪያ መለያ አስተዳዳሪ</string>
+    <string name="about_title">ስለ</string>
+    <string name="text_do_not_show_rationale">ባህሪው አይገኝም፣ እባክዎ በቅንብሮች ስክሪን ውስጥ ፈቃዶችን ይስጡን።</string>
+    <string name="text_permission_require_desc">የቀን መቁጠሪያው የማንበብ እና የመፃፍ ፍቃድ እንፈልጋለን የቀን መቁጠሪያ ሂሳቦችን ለመዘርዘር እና አላስፈላጊ መለያዎችን መሰረዝ ይችላሉ።\n\nእባክዎ ፈቃዱን ይስጡት።</string>
+    <string name="button_nope">አይደለም</string>
+    <string name="button_ok">እሺ!</string>
+    <string name="text_permissions_not_available">የቀን መቁጠሪያ ፈቃዶች ተከልክለዋል። የቀን መቁጠሪያ ሂሳቦችን ለመዘርዘር እና እርስዎ የማይፈልጉትን መለያ ለመሰረዝ እንዲረዳዎ እነዚህን ፈቃዶች እንፈልጋለን። እባክህ፣ በቅንብሮች ስክሪን ላይ መዳረሻ ስጠን።</string>
+    <string name="button_open_settings">ቅንብሮችን ይክፈቱ</string>
+    <string name="about_appname">የቀን መቁጠሪያ አስተዳዳሪ</string>
+    <string name="about_app_desc">ክፍት ምንጭ እና ቀላል የቀን መቁጠሪያ መለያ አስተዳዳሪ መተግበሪያ።\n\n\n\nበአንዳንድ መተግበሪያዎች በተፈጠሩ የቀን መቁጠሪያ መለያዎች ከተንገላቱ ይህ መተግበሪያ ለእርስዎ ነው።\nየቀን መቁጠሪያ መለያዎን እንዲሰርዙ ሊረዳዎት ይችላል (አንዳንድ ስርዓቶች ይህንን ችሎታ አይሰጡም)። \n\nማስታወሻ፡ ለ[Delete] የቀን መቁጠሪያ መለያ ብቻ ነው የሚያገለግለው፣ የቀን መቁጠሪያ መለያ መፍጠር [መከላከል] አይችልም።</string>
+    <string name="about_versions">ሥሪት</string>
+    <string name="about_permission">ፍቃድ</string>
+    <string name="about_permission_desc">ይህ መተግበሪያ ክፍት ምንጭ ነው እና የአውታረ መረብ ወይም የፋይል ማከማቻ ፈቃዶችን አይፈልግም።</string>
+    <string name="about_link_github">Github</string>
+    <string name="about_toast_failed_to_open">ሊንኩን መክፈት ተስኖታል።</string>
+    <string name="about_lifeup_desc"><![CDATA[ማድረግ እና ልማድ መተግበሪያ]]></string>
+    <string name="about_link">አገናኝ</string>
+    <string name="about_not_found_android_store">ጉግል ፕለይን ወይም ሌላ አፕ ስቶርን መክፈት አልተቻለም</string>
+    <string name="delete_success_snackbar_message">ይህ መተግበሪያ የሚረዳዎት ከሆነ እባክዎን በፕሌይ ስቶር ላይ ደረጃ እንዲሰጡን ያስቡበት!\n\nእናም የአንድ ጊዜ ግዢ ወይም ነፃ ምርታማ አፕሊኬሽኖችን ለመስራት ቁርጠኞች ነን፣ለሌሎች መተግበሪያዎቻችን እንኳን ደህና መጡ።</string>
+    <string name="btn_rate">ደረጃ ይስጡ</string>
+    <string name="hint_multi_select">ብዙ ለመምረጥ እና ለመሰረዝ ካርዱን ለረጅም ጊዜ መጫን ይችላሉ.</string>
+    <string name="it_seems_that_we_did_not_find_any_calendar_accounts">ምንም የቀን መቁጠሪያ መለያዎች ያገኘን አይመስልም።</string>
+</resources>

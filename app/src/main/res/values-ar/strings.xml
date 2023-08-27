@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Calendar Account Manager</string>
+    <string name="dialog_button_dismiss">رفض</string>
+    <string name="dialog_button_confirm">يتأكد</string>
+    <string name="dialog_title_delete">يمسح</string>
+    <string name="dialog_message_delete_cal_account">الرجاء تأكيد ما إذا كنت تريد حذف التقويم: %1$s.\n\nلا يمكن التراجع عن هذه العملية، وسيتم حذف الأحداث الموجودة ضمن الحساب أيضًا.\n\nيرجى التعامل بحذر.</string>
+    <string name="placeholder_loading">تحميل...</string>
+    <string name="app_title">مدير حساب التقويم</string>
+    <string name="about_title">عن</string>
+    <string name="text_do_not_show_rationale">الميزة غير متوفرة، يرجى منحنا الأذونات في شاشة الإعدادات.</string>
+    <string name="text_permission_require_desc">نحتاج إلى إذن القراءة والكتابة في التقويم لإدراج حسابات التقويم ويمكنك حذف الحسابات غير الضرورية.\n\nالرجاء منح الإذن.</string>
+    <string name="button_nope">لا</string>
+    <string name="button_ok">نعم!</string>
+    <string name="text_permissions_not_available">تم رفض أذونات التقويم. نحتاج إلى هذه الأذونات لسرد حسابات التقويم ومساعدتك في حذف الحساب الذي لا تريده. من فضلك، امنحنا إمكانية الوصول إلى شاشة الإعدادات.</string>
+    <string name="button_open_settings">أفتح الإعدادات</string>
+    <string name="about_appname">مدير التقويم</string>
+    <string name="about_app_desc">تطبيق مفتوح المصدر وبسيط لإدارة حساب التقويم.\n\إذا كنت تتعرض لمضايقات من حسابات التقويم التي تم إنشاؤها بواسطة بعض التطبيقات، فهذا التطبيق مناسب لك.\nيمكن أن يساعدك في حذف حساب التقويم الخاص بك (بعض الأنظمة لا توفر هذه الإمكانية). \n\nملاحظة: يتم استخدامه فقط لحساب التقويم [حذف]، ولا يمكنه [منع إنشاء] حساب التقويم.</string>
+    <string name="about_versions">إصدار</string>
+    <string name="about_permission">إذن</string>
+    <string name="about_permission_desc">هذا التطبيق مفتوح المصدر ولا يتطلب أذونات الشبكة أو تخزين الملفات.</string>
+    <string name="about_link_github">جيثب</string>
+    <string name="about_toast_failed_to_open">فشل في فتح الرابط</string>
+    <string name="about_lifeup_desc"><![CDATA[تطبيق gamification للمهام والعادات]]></string>
+    <string name="about_link">وصلة</string>
+    <string name="about_not_found_android_store">فشل في فتح Google Play أو متجر التطبيقات الآخر</string>
+    <string name="delete_success_snackbar_message">يرجى النظر في تقييمنا على متجر Play إذا كان هذا التطبيق يساعدك!\n\n ونحن ملتزمون بتطوير تطبيقات إنتاجية مجانية أو شراء لمرة واحدة، ونرحب بالانتباه إلى تطبيقاتنا الأخرى.</string>
+    <string name="btn_rate">معدل</string>
+    <string name="hint_multi_select">يمكنك الضغط لفترة طويلة على البطاقة لتحديد متعددة وحذفها.</string>
+    <string name="it_seems_that_we_did_not_find_any_calendar_accounts">It seems that we did not find any calendar accounts</string>
+</resources>

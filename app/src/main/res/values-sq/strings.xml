@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Calendar Account Manager</string>
+    <string name="dialog_button_dismiss">Largoje</string>
+    <string name="dialog_button_confirm">Konfirmo</string>
+    <string name="dialog_title_delete">Fshije</string>
+    <string name="dialog_message_delete_cal_account">Ju lutemi konfirmoni nëse doni të fshini kalendarin: %1$s.\n\nKy veprim nuk mund të zhbëhet dhe ngjarjet në llogari do të fshihen gjithashtu.\n\nJu lutemi veproni me kujdes.</string>
+    <string name="placeholder_loading">Po ngarkohet...</string>
+    <string name="app_title">Menaxheri i llogarisë së kalendarit</string>
+    <string name="about_title">Rreth</string>
+    <string name="text_do_not_show_rationale">Funksioni nuk ofrohet, ju lutemi na jepni lejet në ekranin e cilësimeve.</string>
+    <string name="text_permission_require_desc">Ne kemi nevojë për lejen e leximit dhe shkrimit të kalendarit për të renditur llogaritë e kalendarit dhe ju mund të fshini llogaritë e panevojshme.\n\nJepni lejen.</string>
+    <string name="button_nope">Jo</string>
+    <string name="button_ok">NE RREGULL!</string>
+    <string name="text_permissions_not_available">Lejet e kalendarit u refuzuan. Ne kemi nevojë për këto leje për të renditur llogaritë e kalendarit dhe për t\'ju ndihmuar të fshini llogarinë që nuk dëshironi. Ju lutemi, na jepni akses në ekranin e cilësimeve.</string>
+    <string name="button_open_settings">Hapni Cilësimet</string>
+    <string name="about_appname">Menaxheri i kalendarit</string>
+    <string name="about_app_desc">Një aplikacion i thjeshtë i menaxherit të llogarisë së kalendarit dhe me burim të hapur.\n\Nëse je ngacmuar nga llogaritë e kalendarit të krijuara nga disa aplikacione, ky aplikacion është për ty.\nMund të të ndihmojë të fshish llogarinë tënde të kalendarit (disa sisteme nuk e ofrojnë këtë aftësi). \n\nShënim: Përdoret vetëm për llogarinë e kalendarit [Fshi], nuk mund të [parandalojë krijimin] e llogarisë së kalendarit.</string>
+    <string name="about_versions">Version</string>
+    <string name="about_permission">Leja</string>
+    <string name="about_permission_desc">Ky aplikacion është me burim të hapur dhe nuk kërkon leje për ruajtjen e rrjetit ose skedarëve.</string>
+    <string name="about_link_github">Github</string>
+    <string name="about_toast_failed_to_open">nuk arriti të hapte lidhjen</string>
+    <string name="about_lifeup_desc"><![CDATA[një Aplikacion Gamification To-Do & Habit]]></string>
+    <string name="about_link">Lidhje</string>
+    <string name="about_not_found_android_store">dështoi të hapte google play ose dyqan tjetër aplikacionesh</string>
+    <string name="delete_success_snackbar_message">Ju lutemi, merrni parasysh të na vlerësoni në \"Dyqanin e Play\" nëse ky aplikacion ju ndihmon!\n\nDhe ne jemi të përkushtuar të zhvillojmë aplikacione produktive me blerje një herë ose falas. Mirë se vini t\'u kushtoni vëmendje aplikacioneve tona të tjera.</string>
+    <string name="btn_rate">Vlerësoni</string>
+    <string name="hint_multi_select">Mund ta shtypni gjatë kartën për të zgjedhur të shumëfishta dhe për ta fshirë.</string>
+    <string name="it_seems_that_we_did_not_find_any_calendar_accounts">Duket se nuk kemi gjetur asnjë llogari kalendarike</string>
+</resources>
