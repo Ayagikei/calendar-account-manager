@@ -3,7 +3,7 @@
   <string name="dialog_button_dismiss">Dismiss</string>
   <string name="dialog_button_confirm">Confirm</string>
   <string name="dialog_title_delete">Delete</string>
-  <string name="dialog_message_delete_cal_account">Please confirm whether you want to delete the calendar: %1$s.\n\nThis operation cannot be undone, and the events under the account will also be deleted.\n\nPlease operate with caution.</string>
+  <string name="dialog_message_delete_cal_account">Please confirm whether you want to delete the calendar:\n%1$s.\n\nThis operation cannot be undone, and the events under the account will also be deleted.\n\nPlease operate with caution.</string>
   <string name="placeholder_loading">Loading...</string>
   <string name="app_title">Calendar Account Manager</string>
   <string name="about_title">About</string>

@@ -3,7 +3,7 @@
     <string name="dialog_button_dismiss">አሰናብት</string>
     <string name="dialog_button_confirm">አረጋግጥ</string>
     <string name="dialog_title_delete">ሰርዝ</string>
-    <string name="dialog_message_delete_cal_account">እባክህ የቀን መቁጠሪያውን መሰረዝ መፈለግህን አረጋግጥ፡ %1$s።\n\nይህ ተግባር ሊቀለበስ አይችልም፣ እና በመለያው ስር ያሉ ክስተቶችም ይሰረዛሉ።\n\nእባክህ በጥንቃቄ ስራ።</string>
+    <string name="dialog_message_delete_cal_account">እባክህ የቀን መቁጠሪያውን መሰረዝ መፈለግህን አረጋግጥ፡\n%1$s።\n\nይህ ተግባር ሊቀለበስ አይችልም፣ እና በመለያው ስር ያሉ ክስተቶችም ይሰረዛሉ።\n\nእባክህ በጥንቃቄ ስራ።</string>
     <string name="placeholder_loading">በመጫን ላይ...</string>
     <string name="app_title">የቀን መቁጠሪያ መለያ አስተዳዳሪ</string>
     <string name="about_title">ስለ</string>

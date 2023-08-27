@@ -3,7 +3,7 @@
   <string name="dialog_button_dismiss">关闭</string>
   <string name="dialog_button_confirm">确认</string>
   <string name="dialog_title_delete">删除</string>
-  <string name="dialog_message_delete_cal_account">请确认你是否要删除该日历账号: %1$s.\n\n该操作不可逆，并且该账号的事件也会被一并删除。\n\n请谨慎操作。</string>
+  <string name="dialog_message_delete_cal_account">请确认你是否要删除该日历账号:\n%1$s.\n\n该操作不可逆，并且该账号的事件也会被一并删除。\n\n请谨慎操作。</string>
   <string name="placeholder_loading">加载中...</string>
   <string name="app_title">日历账号管理</string>
   <string name="about_title">关于</string>

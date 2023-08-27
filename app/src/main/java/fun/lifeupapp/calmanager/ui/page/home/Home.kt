@@ -231,7 +231,10 @@ fun FeatureThatRequiresCalendarPermission(
             if (it is Success) {
                 CalendarInfo(calendars = it.item, viewModel = viewModel, baseState)
             } else {
-                Text(text = stringResource(R.string.placeholder_loading))
+                Text(
+                    text = stringResource(R.string.placeholder_loading),
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
             }
         }
     } else {

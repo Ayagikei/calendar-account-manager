@@ -3,7 +3,7 @@
     <string name="dialog_button_dismiss">Largoje</string>
     <string name="dialog_button_confirm">Konfirmo</string>
     <string name="dialog_title_delete">Fshije</string>
-    <string name="dialog_message_delete_cal_account">Ju lutemi konfirmoni nëse doni të fshini kalendarin: %1$s.\n\nKy veprim nuk mund të zhbëhet dhe ngjarjet në llogari do të fshihen gjithashtu.\n\nJu lutemi veproni me kujdes.</string>
+    <string name="dialog_message_delete_cal_account">Ju lutemi konfirmoni nëse doni të fshini kalendarin:\n%1$s.\n\nKy veprim nuk mund të zhbëhet dhe ngjarjet në llogari do të fshihen gjithashtu.\n\nJu lutemi veproni me kujdes.</string>
     <string name="placeholder_loading">Po ngarkohet...</string>
     <string name="app_title">Menaxheri i llogarisë së kalendarit</string>
     <string name="about_title">Rreth</string>
