@@ -1,30 +1,27 @@
 package `fun`.lifeupapp.calmanager.ui.page.home
 
-import `fun`.lifeupapp.calmanager.BuildConfig
-import `fun`.lifeupapp.calmanager.MainViewModel
-import `fun`.lifeupapp.calmanager.R
-import `fun`.lifeupapp.calmanager.R.string
-import `fun`.lifeupapp.calmanager.common.Resource
-import `fun`.lifeupapp.calmanager.common.Resource.Success
-import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
-import `fun`.lifeupapp.calmanager.ui.RouteDef
-import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
-import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import android.Manifest.permission
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,11 +29,12 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -62,17 +60,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.statusBarsHeight
-import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import `fun`.lifeupapp.calmanager.BuildConfig
+import `fun`.lifeupapp.calmanager.MainViewModel
+import `fun`.lifeupapp.calmanager.R
+import `fun`.lifeupapp.calmanager.R.string
+import `fun`.lifeupapp.calmanager.common.Resource
+import `fun`.lifeupapp.calmanager.common.Resource.Success
+import `fun`.lifeupapp.calmanager.datasource.data.CalendarModel
+import `fun`.lifeupapp.calmanager.ui.RouteDef
+import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
+import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import splitties.init.appCtx
 
@@ -80,53 +84,102 @@ import splitties.init.appCtx
  * home page in compose
  *
  * MIT License
- * Copyright (c) 2021 AyagiKei
+ * Copyright (c) 2023 AyagiKei
  */
 
-@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalUnitApi
 @ExperimentalPermissionsApi
 @Composable
 fun Home(navController: NavController) {
     CalendarManagerM3Theme {
-        // add ProvideWindowInsets
-        ProvideWindowInsets {
-            //set status bar color
-            rememberSystemUiController().setStatusBarColor(
-                MaterialTheme.colorScheme.background
-            )
+        //set status bar color
+        rememberSystemUiController().setStatusBarColor(
+            MaterialTheme.colorScheme.background
+        )
 
-            val snackbarHostState = remember {
-                androidx.compose.material3.SnackbarHostState()
-            }
-            val scope = rememberCoroutineScope()
+        val snackbarHostState = remember {
+            androidx.compose.material3.SnackbarHostState()
+        }
+        val scope = rememberCoroutineScope()
+        val viewModel = viewModel<MainViewModel>()
+        val enterSelectMode by viewModel.enterSelectMode.collectAsState()
+        val deleteConfirmDialogState by viewModel.deleteConfirmDialogState.collectAsState()
 
-            Scaffold(
-                Modifier
-                    .fillMaxWidth()
-                    .systemBarsPadding(), floatingActionButton = {
+        BackHandler(enabled = enterSelectMode) {
+            viewModel.unselectedAll()
+        }
+
+        Scaffold(
+            Modifier
+                .fillMaxWidth()
+                .systemBarsPadding(), floatingActionButton = {
+
+                if (enterSelectMode.not()) {
                     FloatingActionButton(onClick = {
                         navController.navigate(RouteDef.ABOUT.path)
                     }) {
                         Icon(Filled.Info, contentDescription = "about")
                     }
-                }, snackbarHost = {
-                    androidx.compose.material3.SnackbarHost(hostState = snackbarHostState)
+                } else {
+                    FloatingActionButton(onClick = {
+                        viewModel.deleteSelected()
+                    }) {
+                        Icon(Filled.Delete, contentDescription = "delete")
+                    }
                 }
+            }, snackbarHost = {
+                androidx.compose.material3.SnackbarHost(hostState = snackbarHostState)
+            }
+        ) {
+            Surface(
+                color = MaterialTheme.colorScheme.background,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(it)
             ) {
-                Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxHeight()) {
-                    Column {
-                        val context = LocalContext.current
-                        HeaderTitle(context.getString(string.app_title))
-                        // request permission and list calendar accounts
-                        FeatureThatRequiresCalendarPermission(navigateToSettingsScreen = {
-                            context.startActivity(
-                                Intent(
-                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                    Uri.fromParts("package", context.packageName, null)
-                                )
+                val baseState = remember {
+                    BaseState(snackbarHostState, scope)
+                }
+                Column {
+                    val context = LocalContext.current
+                    HeaderTitle(context.getString(string.app_title))
+                    // request permission and list calendar accounts
+                    FeatureThatRequiresCalendarPermission(navigateToSettingsScreen = {
+                        context.startActivity(
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", context.packageName, null)
                             )
-                        }, MainViewModel(), baseState = BaseState(snackbarHostState, scope))
+                        )
+                    }, viewModel, baseState = baseState)
+
+                    // delete confirm dialog
+                    if (deleteConfirmDialogState.calendars.isNotEmpty()) {
+                        DeleteConfirmDialog(
+                            calendarModels = deleteConfirmDialogState.calendars,
+                            countDown = deleteConfirmDialogState.countdown,
+                            onDismissRequest = {
+                                viewModel.dismissDeleteConfirmDialog()
+                            },
+                            onConfirmAction = {
+                                viewModel.confirmDelete(deleteConfirmDialogState.calendars)
+
+                                // show rate us snack bar only once in lifecycle
+                                if (viewModel.shouldShownRateUs.value && baseState.snackbarHostState != null) {
+                                    baseState.scope.launch(Dispatchers.Main) {
+                                        val result = baseState.snackbarHostState.showSnackbar(
+                                            message = appCtx.getString(R.string.delete_success_snackbar_message),
+                                            actionLabel = appCtx.getString(R.string.btn_rate),
+                                            duration = SnackbarDuration.Long
+                                        )
+                                        if (result == SnackbarResult.ActionPerformed) {
+                                            launchStorePage(appCtx, BuildConfig.APPLICATION_ID)
+                                        }
+                                    }
+                                    viewModel.hasShownRateUs()
+                                }
+                            }
+                        )
                     }
                 }
             }
@@ -158,44 +211,21 @@ fun FeatureThatRequiresCalendarPermission(
 
     if (cameraPermissionState.allPermissionsGranted) {
         viewModel.fetchIfError()
-    }
 
-    PermissionsRequired(
-        multiplePermissionsState = cameraPermissionState,
-        permissionsNotGrantedContent = {
-            if (doNotShowRationale) {
-                Text(stringResource(R.string.text_do_not_show_rationale))
-            } else {
-                Column {
-                    Text(
-                        stringResource(R.string.text_permission_require_desc),
-                        Modifier.padding(horizontal = 16.dp)
+        val multiSelectHintState by viewModel.multiSelectHint.collectAsState()
+        if (multiSelectHintState) {
+            LaunchedEffect(Unit) {
+                baseState.scope.launch {
+                    baseState.snackbarHostState?.showSnackbar(
+                        message = appCtx.getString(R.string.hint_multi_select),
+                        actionLabel = appCtx.getString(R.string.button_ok),
+                        duration = SnackbarDuration.Indefinite
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(Modifier.padding(horizontal = 16.dp)) {
-                        Button(onClick = { doNotShowRationale = true }) {
-                            Text(stringResource(R.string.button_nope))
-                        }
-                        Spacer(Modifier.width(8.dp))
-                        Button(onClick = { cameraPermissionState.launchMultiplePermissionRequest() }) {
-                            Text(stringResource(R.string.button_ok))
-                        }
-                    }
                 }
             }
-        },
-        permissionsNotAvailableContent = {
-            Column {
-                Text(
-                    stringResource(R.string.text_permissions_not_available)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = navigateToSettingsScreen) {
-                    Text(stringResource(R.string.button_open_settings))
-                }
-            }
+            viewModel.shownMultiSelectHint()
         }
-    ) {
+
         val calendarResource: Resource<List<CalendarModel>> by viewModel.calendarList.collectAsState()
         calendarResource.let {
             if (it is Success) {
@@ -204,14 +234,47 @@ fun FeatureThatRequiresCalendarPermission(
                 Text(text = stringResource(R.string.placeholder_loading))
             }
         }
+    } else {
+        if (cameraPermissionState.shouldShowRationale.not() && doNotShowRationale.not()) {
+            Column {
+                Text(
+                    stringResource(R.string.text_permission_require_desc),
+                    Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(Modifier.padding(horizontal = 16.dp)) {
+                    Button(onClick = { doNotShowRationale = true }) {
+                        Text(stringResource(R.string.button_nope))
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    Button(onClick = { cameraPermissionState.launchMultiplePermissionRequest() }) {
+                        Text(stringResource(R.string.button_ok))
+                    }
+                }
+            }
+        } else {
+            Text(
+                stringResource(R.string.text_do_not_show_rationale),
+                Modifier.padding(horizontal = 16.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(Modifier.padding(horizontal = 16.dp)) {
+                Button(onClick = {
+                    navigateToSettingsScreen()
+                }) {
+                    Text(stringResource(R.string.button_open_settings))
+                }
+            }
+        }
     }
 }
 
 @Composable
 fun HeaderTitle(title: String) {
+    WindowInsets
     Spacer(
         modifier = Modifier
-            .statusBarsHeight()
+            .windowInsetsTopHeight(WindowInsets.statusBars)
             .fillMaxWidth()
     )
     Text(
@@ -229,12 +292,14 @@ fun CalendarInfo(
 ) {
     if (calendars.isEmpty()) {
         Text(
-            "It seems that we did not find any calendar accounts",
+            stringResource(R.string.it_seems_that_we_did_not_find_any_calendar_accounts),
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
         )
     } else {
         LazyColumn {
-            itemsIndexed(calendars) { index, cal ->
+            itemsIndexed(calendars, key = { _, item ->
+                item.hashCode()
+            }) { index, cal ->
                 CalendarCard(calendarModel = cal, viewModel = viewModel, baseState)
                 if (index == calendars.size - 1) {
                     Spacer(modifier = Modifier.height(56.dp))
@@ -244,6 +309,7 @@ fun CalendarInfo(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CalendarCard(
     calendarModel: CalendarModel,
@@ -253,15 +319,21 @@ fun CalendarCard(
     Card(
         modifier = Modifier
             .padding(top = 8.dp, start = 4.dp, end = 4.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .combinedClickable(
+                onLongClick = {
+                    viewModel.toggleSelect(calendarModel)
+                }
+            ) {
+                if (viewModel.enterSelectMode.value) {
+                    viewModel.toggleSelect(calendarModel)
+                }
+            },
         elevation = 0.dp,
         shape = RoundedCornerShape(16.dp),
         backgroundColor = MaterialTheme.colorScheme.secondaryContainer
     ) {
-        var openDialog by remember { mutableStateOf(false) }
-        var countDown by remember {
-            mutableStateOf(3)
-        }
+
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -289,54 +361,51 @@ fun CalendarCard(
                 Surface(
                     Modifier
                         .clickable {
-                            openDialog = true
-                            countDown = 3
+                            if (viewModel.enterSelectMode.value.not()) {
+                                viewModel.deleteItem(listOf(calendarModel))
+                            } else {
+                                viewModel.toggleSelect(calendarModel)
+                            }
                         }
                         .width(46.dp)
                         .height(46.dp)
                         .background(color = MaterialTheme.colorScheme.secondaryContainer)) {
-                    Icon(
-                        Filled.Delete,
-                        contentDescription = "delete button",
-                        modifier = Modifier
-                            .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                            .wrapContentWidth()
-                            .wrapContentHeight(),
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                }
-
-            }
-        }
-        if (openDialog) {
-            DeleteConfirmDialog(calendarModel = calendarModel, countDown = countDown,
-                onDismissRequest = {
-                    openDialog = false
-                }, onConfirmAction = {
-                    openDialog = false
-                    viewModel.delete(calendarModel.id)
-
-                    // show rate us snack bar
-                    if (baseState.snackbarHostState != null) {
-                        baseState.scope.launch(Dispatchers.Main) {
-                            val result = baseState.snackbarHostState.showSnackbar(
-                                message = appCtx.getString(R.string.delete_success_snackbar_message),
-                                actionLabel = appCtx.getString(R.string.btn_rate),
-                                duration = SnackbarDuration.Long
+                    val selectedMode by viewModel.enterSelectMode.collectAsState()
+                    if (calendarModel.isSelected.not()) {
+                        if (selectedMode.not()) {
+                            Icon(
+                                Filled.Delete,
+                                contentDescription = "delete button",
+                                modifier = Modifier
+                                    .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                                    .wrapContentWidth()
+                                    .wrapContentHeight(),
+                                tint = MaterialTheme.colorScheme.onSecondaryContainer
                             )
-                            if (result == SnackbarResult.ActionPerformed) {
-                                launchStorePage(appCtx, BuildConfig.APPLICATION_ID)
-                            }
+                        } else {
+                            Icon(
+                                Filled.Add,
+                                contentDescription = "unchecked item",
+                                modifier = Modifier
+                                    .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                                    .wrapContentWidth()
+                                    .wrapContentHeight(),
+                                tint = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
                         }
-                    }
-                })
-            LaunchedEffect(openDialog) {
-                launch(Dispatchers.Default) {
-                    while (countDown > 0) {
-                        delay(1000)
-                        countDown--
+                    } else {
+                        Icon(
+                            Filled.Check,
+                            contentDescription = "checked item",
+                            modifier = Modifier
+                                .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                                .wrapContentWidth()
+                                .wrapContentHeight(),
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
                     }
                 }
+
             }
         }
     }
@@ -344,22 +413,26 @@ fun CalendarCard(
 
 @Composable
 fun DeleteConfirmDialog(
-    calendarModel: CalendarModel,
+    calendarModels: List<CalendarModel>,
     countDown: Int,
     onDismissRequest: () -> Unit,
     onConfirmAction: () -> Unit
 ) {
-
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {
             Text(text = stringResource(R.string.dialog_title_delete))
         },
         text = {
+            val calendarModelsText = remember {
+                calendarModels.joinToString(separator = "\n") {
+                    "${it.displayName}(${it.accountName})"
+                }
+            }
             Text(
                 text = stringResource(
                     R.string.dialog_message_delete_cal_account,
-                    "${calendarModel.displayName}(${calendarModel.accountName})"
+                    calendarModelsText
                 )
             )
         },

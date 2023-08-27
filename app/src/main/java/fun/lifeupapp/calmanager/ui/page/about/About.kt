@@ -1,12 +1,5 @@
 package `fun`.lifeupapp.calmanager.ui.page.about
 
-import `fun`.lifeupapp.calmanager.R
-import `fun`.lifeupapp.calmanager.R.string
-import `fun`.lifeupapp.calmanager.common.Val
-import `fun`.lifeupapp.calmanager.ui.page.home.HeaderTitle
-import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
-import `fun`.lifeupapp.calmanager.utils.VersionUtil
-import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Canvas
@@ -20,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,6 +22,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,9 +42,14 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import `fun`.lifeupapp.calmanager.R
+import `fun`.lifeupapp.calmanager.R.string
+import `fun`.lifeupapp.calmanager.common.Val
+import `fun`.lifeupapp.calmanager.ui.page.home.HeaderTitle
+import `fun`.lifeupapp.calmanager.ui.theme.m3.CalendarManagerM3Theme
+import `fun`.lifeupapp.calmanager.utils.VersionUtil
+import `fun`.lifeupapp.calmanager.utils.launchStorePage
 import splitties.init.appCtx
 import splitties.toast.toast
 
@@ -57,7 +57,7 @@ import splitties.toast.toast
  * about page in compose
  *
  * MIT License
- * Copyright (c) 2021 AyagiKei
+ * Copyright (c) 2023 AyagiKei
  */
 
 @ExperimentalUnitApi
@@ -65,15 +65,20 @@ import splitties.toast.toast
 @Composable
 fun About() {
     CalendarManagerM3Theme {
-        ProvideWindowInsets {
+        Scaffold(
+            Modifier
+                .fillMaxWidth()
+                .systemBarsPadding()
+        ) {
             Surface(
                 color = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
                     .fillMaxHeight()
                     .systemBarsPadding()
+                    .padding(it)
             ) {
                 Column {
-                    HeaderTitle(stringResource(R.string.about_title))
+                    HeaderTitle(stringResource(string.about_title))
                     Column(
                         Modifier
                             .padding(start = 16.dp)
