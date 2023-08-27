@@ -3,7 +3,7 @@
     <string name="dialog_button_dismiss">Verwerp</string>
     <string name="dialog_button_confirm">Bevestig</string>
     <string name="dialog_title_delete">Vee uit</string>
-    <string name="dialog_message_delete_cal_account">Bevestig asseblief of jy die kalender wil uitvee: %1$s.\n\nHierdie bewerking kan nie ontdoen word nie, en die gebeure onder die rekening sal ook uitgevee word.\n\nOperasie asseblief met omsigtigheid.</string>
+    <string name="dialog_message_delete_cal_account">Bevestig asseblief of jy die kalender wil uitvee:\n%1$s.\n\nHierdie bewerking kan nie ontdoen word nie, en die gebeure onder die rekening sal ook uitgevee word.\n\nOperasie asseblief met omsigtigheid.</string>
     <string name="placeholder_loading">Laai tans...</string>
     <string name="app_title">Kalenderrekeningbestuurder</string>
     <string name="about_title">Oor</string>
