@@ -14,7 +14,7 @@
   <string name="text_permissions_not_available">日历权限授权失败。我们需要这些权限来实现基础功能，请在设置页面中授权。</string>
   <string name="button_open_settings">打开设置</string>
   <string name="about_appname">日历账号管理</string>
-  <string name="about_app_desc">一个简约的开源日历账号管理器（虽然只有删除功能）。\n\n如果你被一些莫名出现的日历账号所骚扰，那么这款软件可以帮助你。\n\n注意:该软件仅用于【删除】日历账号,它并不能为你【阻止创建】日历账号。</string>
+  <string name="about_app_desc">一个简约的开源日历账号管理器（虽然只有删除功能）。\n\n如果你被一些莫名出现的日历账号所骚扰，那么这款软件可以帮助你。\n\n注意：\n该软件仅用于【删除】日历账号,它并不能为你【阻止创建】日历账号。</string>
   <string name="about_versions">版本</string>
   <string name="about_permission">权限</string>
   <string name="about_permission_desc">这款软件是开源的，且不需要网络或者存储权限。</string>
