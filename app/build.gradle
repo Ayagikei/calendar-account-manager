@@ -1,17 +1,25 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
 }
 
 android {
-    compileSdk 34
+    namespace 'fun.lifeupapp.calmanager'
+    compileSdk 36
 
     defaultConfig {
         applicationId "fun.lifeupapp.calmanager"
         minSdk 21
-        targetSdk 34
-        versionCode 4
-        versionName "1.3"
+        targetSdk 36
+        versionCode 5
+        versionName "1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -19,29 +27,40 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            def storeFilePath = System.getenv('ANDROID_RELEASE_STORE_FILE') ?: keystoreProperties['storeFile']
+            if (storeFilePath) {
+                storeFile file(storeFilePath)
+                storePassword System.getenv('ANDROID_RELEASE_STORE_PASSWORD') ?: keystoreProperties['storePassword']
+                keyAlias System.getenv('ANDROID_RELEASE_KEY_ALIAS') ?: keystoreProperties['keyAlias']
+                keyPassword System.getenv('ANDROID_RELEASE_KEY_PASSWORD') ?: keystoreProperties['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
-            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (signingConfigs.release.storeFile != null) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion kotlin_version
-    }
-    packagingOptions {
+    packaging {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
@@ -49,31 +68,31 @@ android {
 }
 
 dependencies {
+    def composeBom = platform('androidx.compose:compose-bom:2025.10.01')
+    implementation composeBom
+    androidTestImplementation composeBom
 
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.2'
-    implementation 'androidx.lifecycle:lifecycle-process:2.6.1'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.compose.material3:material3:1.1.1"
+    implementation 'androidx.core:core-ktx:1.16.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.material:material'
+    implementation 'androidx.compose.material:material-icons-extended'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.1'
+    implementation 'androidx.lifecycle:lifecycle-process:2.9.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.9.1'
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.navigation:navigation-compose:2.9.1'
 
-    implementation "androidx.core:core-splashscreen:1.0.1"
+    implementation 'com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0'
+    implementation 'com.google.accompanist:accompanist-permissions:0.37.3'
 
-    /** Splitties **/
-    implementation "com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0"
-
-    // implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
-
-    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
-    implementation("androidx.navigation:navigation-compose:2.7.0")
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
 }

@@ -45,7 +45,7 @@ object VersionUtil {
     fun getLocalVersionName(ctx: Context): String {
         return try {
             val packageInfo = getPackageInfo(ctx)
-            packageInfo.versionName
+            packageInfo.versionName ?: ""
         } catch (e: PackageManager.NameNotFoundException) {
             logE(e)
             ""

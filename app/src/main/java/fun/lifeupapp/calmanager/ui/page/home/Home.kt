@@ -64,7 +64,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import `fun`.lifeupapp.calmanager.BuildConfig
 import `fun`.lifeupapp.calmanager.MainViewModel
 import `fun`.lifeupapp.calmanager.R
@@ -92,11 +91,6 @@ import splitties.init.appCtx
 @Composable
 fun Home(navController: NavController) {
     CalendarManagerM3Theme {
-        //set status bar color
-        rememberSystemUiController().setStatusBarColor(
-            MaterialTheme.colorScheme.background
-        )
-
         val snackbarHostState = remember {
             androidx.compose.material3.SnackbarHostState()
         }

@@ -1,0 +1,248 @@
+name: Android Google Play
+
+on:
+  workflow_dispatch:
+    inputs:
+      upload_to_google_play:
+        description: "Upload the AAB to Google Play Console"
+        required: true
+        default: true
+        type: boolean
+      validate_only:
+        description: "Upload to Play for validation, then discard the edit"
+        required: true
+        default: false
+        type: boolean
+      track:
+        description: "Google Play track"
+        required: true
+        default: internal
+        type: choice
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+      status:
+        description: "Release status in the selected track"
+        required: true
+        default: draft
+        type: choice
+        options:
+          - draft
+          - inProgress
+          - completed
+      release_notes:
+        description: "Optional release notes (en-US)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-google-play-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    name: Build and publish Android AAB
+    runs-on: ubuntu-latest
+    env:
+      UPLOAD_TO_GOOGLE_PLAY: ${{ inputs.upload_to_google_play }}
+      VALIDATE_ONLY: ${{ inputs.validate_only }}
+      PLAY_TRACK: ${{ inputs.track }}
+      PLAY_STATUS: ${{ inputs.status }}
+      RELEASE_NOTES: ${{ inputs.release_notes }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Prepare release signing
+        shell: bash
+        env:
+          ANDROID_RELEASE_KEYSTORE_BASE64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}
+          ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
+          ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          for name in ANDROID_RELEASE_KEYSTORE_BASE64 ANDROID_RELEASE_STORE_PASSWORD ANDROID_RELEASE_KEY_ALIAS ANDROID_RELEASE_KEY_PASSWORD; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "错误: release signing secret $name 未配置。"
+              exit 1
+            fi
+          done
+
+          keystore_path="$RUNNER_TEMP/cal-android-release.jks"
+          if ! printf '%s' "$ANDROID_RELEASE_KEYSTORE_BASE64" | base64 --decode > "$keystore_path" 2>/dev/null; then
+            printf '%s' "$ANDROID_RELEASE_KEYSTORE_BASE64" | base64 -D > "$keystore_path"
+          fi
+          test -s "$keystore_path"
+          chmod 600 "$keystore_path"
+
+          {
+            echo "ANDROID_RELEASE_STORE_FILE=$keystore_path"
+            echo "ANDROID_RELEASE_STORE_PASSWORD=$ANDROID_RELEASE_STORE_PASSWORD"
+            echo "ANDROID_RELEASE_KEY_ALIAS=$ANDROID_RELEASE_KEY_ALIAS"
+            echo "ANDROID_RELEASE_KEY_PASSWORD=$ANDROID_RELEASE_KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
+
+      - name: Resolve Android version metadata
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          version_name="$(sed -n 's/^[[:space:]]*versionName[[:space:]]*"\([^"]*\)".*/\1/p' app/build.gradle | head -n 1)"
+          version_code="$(sed -n 's/^[[:space:]]*versionCode[[:space:]]*\([0-9][0-9]*\).*/\1/p' app/build.gradle | head -n 1)"
+          [[ "$version_name" =~ ^[0-9]+(\.[0-9]+)*$ ]] || {
+            echo "错误: versionName 无法识别: $version_name"
+            exit 1
+          }
+          [[ "$version_code" =~ ^[1-9][0-9]*$ ]] || {
+            echo "错误: versionCode 无法识别: $version_code"
+            exit 1
+          }
+          {
+            echo "version_name=$version_name"
+            echo "version_code=$version_code"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build signed release AAB
+        run: ./gradlew --no-daemon --stacktrace :app:bundleRelease
+
+      - name: Locate and validate AAB
+        id: artifact
+        shell: bash
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: |
+          set -euo pipefail
+          source_aab="app/build/outputs/bundle/release/app-release.aab"
+          test -f "$source_aab"
+          output_aab="$RUNNER_TEMP/cal-manager-v${VERSION_NAME}-${VERSION_CODE}.aab"
+          cp "$source_aab" "$output_aab"
+          echo "aab=$output_aab" >> "$GITHUB_OUTPUT"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cal-manager-android-v${{ steps.version.outputs.version_name }}-${{ steps.version.outputs.version_code }}
+          path: ${{ steps.artifact.outputs.aab }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Setup Node.js for GPC CLI
+        if: env.UPLOAD_TO_GOOGLE_PLAY == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install GPC CLI
+        if: env.UPLOAD_TO_GOOGLE_PLAY == 'true'
+        run: npm install --global --no-fund --no-audit @gpc-cli/cli@0.9.95
+
+      - name: Prepare Google Play credentials
+        if: env.UPLOAD_TO_GOOGLE_PLAY == 'true'
+        shell: bash
+        env:
+          GPC_SERVICE_ACCOUNT_JSON: ${{ secrets.GPC_SERVICE_ACCOUNT_JSON }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$GPC_SERVICE_ACCOUNT_JSON" ]]; then
+            echo "错误: GPC_SERVICE_ACCOUNT_JSON 未配置。"
+            exit 1
+          fi
+          printf '%s' "$GPC_SERVICE_ACCOUNT_JSON" | jq -e '.type == "service_account"' >/dev/null
+
+          service_account_path="$RUNNER_TEMP/gpc-service-account.json"
+          printf '%s' "$GPC_SERVICE_ACCOUNT_JSON" > "$service_account_path"
+          chmod 600 "$service_account_path"
+          {
+            echo "GPC_SERVICE_ACCOUNT=$service_account_path"
+            echo "GPC_APP=fun.lifeupapp.calmanager"
+            echo "GPC_NO_INTERACTIVE=1"
+          } >> "$GITHUB_ENV"
+
+      - name: Verify GPC access
+        if: env.UPLOAD_TO_GOOGLE_PLAY == 'true'
+        run: gpc doctor --output json
+
+      - name: Validate AAB with GPC
+        if: env.UPLOAD_TO_GOOGLE_PLAY == 'true'
+        env:
+          AAB: ${{ steps.artifact.outputs.aab }}
+        run: gpc validate "$AAB" --output json
+
+      - name: Upload AAB to Google Play Console
+        if: env.UPLOAD_TO_GOOGLE_PLAY == 'true'
+        shell: bash
+        env:
+          AAB: ${{ steps.artifact.outputs.aab }}
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: |
+          set -euo pipefail
+          upload_args=(
+            releases upload "$AAB"
+            --track "$PLAY_TRACK"
+            --status "$PLAY_STATUS"
+            --name "Calendar Account Manager v${VERSION_NAME} (${VERSION_CODE})"
+          )
+          if [[ -n "$RELEASE_NOTES" ]]; then
+            upload_args+=(--notes "$RELEASE_NOTES")
+          fi
+          if [[ "$VALIDATE_ONLY" == "true" ]]; then
+            upload_args+=(--validate-only)
+          fi
+          attempt=1
+          max_attempts=3
+          while true; do
+            upload_log="$RUNNER_TEMP/gpc-upload-${attempt}.log"
+            if gpc --output json "${upload_args[@]}" 2>&1 | tee "$upload_log"; then
+              break
+            fi
+            if ! grep -Eqi 'uploads (is|are) not completed' "$upload_log" || (( attempt >= max_attempts )); then
+              exit 1
+            fi
+            delay_seconds=$((attempt * 90))
+            echo "Play Console is still processing the AAB; retrying in ${delay_seconds}s (attempt $((attempt + 1))/${max_attempts})."
+            sleep "$delay_seconds"
+            attempt=$((attempt + 1))
+          done
+
+      - name: Job summary
+        if: always()
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: |
+          {
+            echo "## Android Google Play"
+            echo "- versionName: ${VERSION_NAME:-unresolved}"
+            echo "- versionCode: ${VERSION_CODE:-unresolved}"
+            echo "- upload: $UPLOAD_TO_GOOGLE_PLAY"
+            echo "- track: $PLAY_TRACK"
+            echo "- status: $PLAY_STATUS"
+            echo "- validate-only: $VALIDATE_ONLY"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove temporary credentials
+        if: always()
+        shell: bash
+        run: |
+          rm -f "$RUNNER_TEMP/cal-android-release.jks"
+          rm -f "$RUNNER_TEMP/gpc-service-account.json"
