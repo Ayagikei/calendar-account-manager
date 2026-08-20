@@ -37,9 +37,14 @@ on:
         required: false
         default: ""
         type: string
+      publish_github_release:
+        description: "Download the Play-signed universal APK and publish a GitHub Release"
+        required: true
+        default: true
+        type: boolean
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: android-google-play-${{ github.ref }}
@@ -49,6 +54,9 @@ jobs:
   build-and-publish:
     name: Build and publish Android AAB
     runs-on: ubuntu-latest
+    outputs:
+      version_name: ${{ steps.version.outputs.version_name }}
+      version_code: ${{ steps.version.outputs.version_code }}
     env:
       UPLOAD_TO_GOOGLE_PLAY: ${{ inputs.upload_to_google_play }}
       VALIDATE_ONLY: ${{ inputs.validate_only }}
@@ -246,3 +254,17 @@ jobs:
         run: |
           rm -f "$RUNNER_TEMP/cal-android-release.jks"
           rm -f "$RUNNER_TEMP/gpc-service-account.json"
+
+  github-release:
+    name: Publish Play-signed GitHub Release
+    needs: build-and-publish
+    if: >-
+      success() &&
+      inputs.upload_to_google_play &&
+      !inputs.validate_only &&
+      inputs.publish_github_release
+    uses: ./.github/workflows/play-signed-github-release.yml
+    with:
+      version_code: ${{ needs.build-and-publish.outputs.version_code }}
+      version_name: ${{ needs.build-and-publish.outputs.version_name }}
+    secrets: inherit

@@ -2,37 +2,43 @@
  <img src="https://github.com/Ayagikei/calendar-account-manager/raw/main/imgs/02.jpg" style="height:600px" />
 </p>
 
-<h2 align="center" padding="100">Calendar Account Manager</h2>
+<h2 align="center">Calendar Account Manager</h2>
 
-<p align="center">Help you delete unwanted calendar accounts!</p>
-
-
-### Installation
+<p align="center">Help you delete unwanted calendar accounts.</p>
 
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=fun.lifeupapp.calmanager&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
-    <img src="https://img.shields.io/static/v1?labelColor=56595b&color=97db99&logo=google-play&logoColor=ffffff&label=google play&style=for-the-badge&message=get"/>
+  <a href="https://play.google.com/store/apps/details?id=fun.lifeupapp.calmanager">
+    <img alt="Get it on Google Play" height="80" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"/>
   </a>
 </p>
 
-<br/>
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=fun.lifeupapp.calmanager">Google Play</a>
+  ·
+  <a href="https://github.com/Ayagikei/calendar-account-manager/releases/latest">GitHub Release (Play-signed APK)</a>
+</p>
+
+Install from **Google Play** when you can. The GitHub Release APK is the same Play App Signing build, for sideload only.
 
 ### What's it?
 
-If you are being bothered by a calendar account that doesn't know where it popped up, then this
-software is designed for you.
+If a calendar account showed up and you cannot tell where it came from, this app is for you.
 
-The main function of this model is to query all calendar accounts and provide a delete function.
+It lists every calendar account on the device and lets you delete the ones you do not want.
 
-> In addition, this is my compose practice project.
+> Also a Compose practice project.
 
 ### Contribution
 
-We're glad to review all pull request. Please free feel to improve this project.
-
-Please follow our commit message standard. Other than that, there are no special requirements.
+Pull requests are welcome. Follow the existing commit message style; there are no other special requirements.
 
 ### Release Log
+
+**Version 1.4**
+
+1. Target Android 16 (API 36)
+2. Raise minSdk to 23
+3. GitHub Actions upload to Google Play
 
 **Version 1.2**
 
