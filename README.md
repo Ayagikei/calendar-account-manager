@@ -4,7 +4,7 @@
 
 <h2 align="center">Calendar Account Manager</h2>
 
-<p align="center">Help you delete unwanted calendar accounts.</p>
+<p align="center">Delete leftover calendar accounts that other apps leave behind.</p>
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=fun.lifeupapp.calmanager">
@@ -22,9 +22,11 @@ Install from **Google Play** when you can. The GitHub Release APK is the same Pl
 
 ### What's it?
 
-If a calendar account showed up and you cannot tell where it came from, this app is for you.
+A lot of apps create their own calendar accounts and write events onto the device. Many of them never give you a way to remove those accounts afterwards, and Android often does not either — so the leftover calendars just stay there.
 
-It lists every calendar account on the device and lets you delete the ones you do not want.
+This app lists every calendar account on the device and lets you delete the ones you do not want.
+
+It only deletes existing accounts. It cannot stop other apps from creating new ones.
 
 > Also a Compose practice project.
 
